@@ -16,6 +16,8 @@
 "
 " @see http://vim.wikia.com/wiki/Version_Control_for_Vimfiles
 
+
+
 if has("win32") || has("win32unix")
     let g:OS#name = "win"
     let g:OS#win = 1
@@ -32,90 +34,24 @@ elseif has("unix")
     let g:OS#win = 0
     let g:OS#mac = 0
 endif
+
 if has("gui_running")
     let g:OS#gui = 1
 else
     let g:OS#gui = 0
 endif
 
-set nocompatible
 if g:OS#win
-    source $VIMRUNTIME/vimrc_example.vim
-    source $VIMRUNTIME/mswin.vim
-    behave mswin
-endif
-
-if g:OS#win
-    " MyDiff {{{
-    set diffexpr=MyDiff()
-    function MyDiff()
-      let opt = '-a --binary '
-      if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-      if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-      let arg1 = v:fname_in
-      if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-      let arg2 = v:fname_new
-      if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-      let arg3 = v:fname_out
-      if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-      let eq = ''
-      if $VIMRUNTIME =~ ' '
-        if &sh =~ '\<cmd'
-          let cmd = '""' . $VIMRUNTIME . '\diff"'
-          let eq = '"'
-        else
-          let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-        endif
-      else
-        let cmd = $VIMRUNTIME . '\diff'
-      endif
-      silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-    endfunction
-endif
-
-
-function! Jump2DiffText(dir)
-    if a:dir=="prev"
-        exec "normal [c"
-    elseif a:dir=="next"
-        exec "normal ]c"
-    endif
-    if synIDattr(diff_hlID(".", col(".")), "name")=="DiffChange"
-        let line=line(".")
-        let cols=col("$")-1
-        let idx=1
-        while idx<=cols
-            if synIDattr(diff_hlID(line, idx), "name")=="DiffText"
-                call setpos(".", [0,line,idx])
-                echo line.",".idx.",".cols
-                break
-            else
-                let idx = idx+1
-            endif
-        endwhile
-    endif
-endfunction
-
-" @see http://vim.wikia.com/wiki/Selecting_changes_in_diff_mode
-if &diff
-    nmap <buffer> <F7> :call Jump2DiffText("prev")<cr>
-    nmap <buffer> <F8> :call Jump2DiffText("next")<cr>
+    let VIM_HOME = $VIM . "\\"
+    let TMP_POSTFIX = "_"
 else
-    map <buffer> <F7> :cp<cr>
-    map <buffer> <F8> :cn<cr>
+    let VIM_HOME = "~/.vim/"
+    let TMP_POSTFIX = "."
 endif
 
-"cnoremap js javascript
-"cnoremap vm velocity
-"cabbrev js javascript
-"cabbrev vm velocity
-"cabbrev utf set fenc=utf8
-"cabbrev utf8 set fenc=utf8
-"cabbrev gbk set fenc=gbk
+set nocompatible
 
-" }}}
 
-" -------------------------------- Settings ----------------------------- {{{
 " quick startup mode.
 set shortmess=atI
 
@@ -130,138 +66,22 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 language messages zh_CN.UTF-8
 
+
 filetype plugin on
 filetype indent on
 syntax on
 filetype on
 
 
-" FencView.vim
-" 自动识别文件编码
-" @see http://www.vim.org/scripts/script.php?script_id=1708
-let g:fencview_autodetect=1
-let g:fencview_auto_patterns='*.txt,*.js,*.css,*.c,*.cpp,*.h,*.java,*.cs,*.htm{l\=}'
-let g:fencview_checklines=20
-let $FENCVIEW_TELLENC='tellenc'
-
-
 " 文件格式，默认 ffs=dos,unix
 set fileformat=unix
 set fileformats=unix,dos,mac
 
-" set default(normal) window size.
-set columns=90
-set lines=30
-
-let s:lines = str2nr(&lines)
-let s:columns = str2nr(&columns)
-function! MaximumWindow()
-    if g:OS#win
-        set lines=999
-        set columns=9999
-    else
-        set lines=999
-    endif
-endfunction
-function! NoMaximumWindow()
-    if g:OS#win
-        let &lines=s:lines
-        let &columns=s:columns
-    else
-        let &lines=s:lines
-    endif
-endfunction
-command -nargs=0 Max :call MaximumWindow()
-command -nargs=0 Min :call NoMaximumWindow()
-command -nargs=0 NoMax :call NoMaximumWindow()
-command -nargs=0 Nomax :call NoMaximumWindow()
-
-
-let s:fullscreen = 0
-function! FullScreenToggle()
-    if g:OS#win
-        if has("libcall")
-            call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)
-        endif
-    elseif g:OS#mac
-        " 原生支持。
-        if &fullscreen
-            set nofullscreen
-        else
-            set fullscreen
-        endif
-    elseif g:OS#unix
-        " 系统设置->键盘快捷键->窗口管理->切换全屏模式(F11)
-        if executable("wmctrl")
-            if s:fullscreen
-                " FIXME.
-                silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-                let s:fullscreen = 0
-            else
-                silent !wmctrl -r :ACTIVE: -b add,fullscreen
-                let s:fullscreen = 1
-            endif
-        endif
-    endif
-endfunction
-command -nargs=0 FullScreen :call FullScreenToggle()
-nnoremap <F11> :call FullScreenToggle()<cr>
-inoremap <F11> <C-o><F11>
-
-if g:OS#win
-    " max open window
-    if g:OS#gui
-        au GUIEnter * simalt ~x
-    endif
-
-    au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
-    command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
-    command -nargs=0 Sysrc silent tabnew $VIM/sysrc.vim
-    " @see http://practice.chatserve.com/hosts.html
-    command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
-else
-    if g:OS#gui
-        " <F11> is global hotkey for display desktop.
-        nnoremap <C-F11> :call FullScreenToggle()<cr>
-        inoremap <C-F11> <C-o>:call FullScreenToggle()<cr>
-        if g:OS#mac
-            set transparency=5
-        elseif g:OS#unix
-            function! Maximize_Window()
-                " for Gnome.
-                " $ sudo apt-get install wmctrl
-                " http://fluxbox.sourceforge.net/docbook/zh_cn/html/ch03s05.html
-                silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-            endfunction
-            autocmd GUIEnter * call Maximize_Window()
-        endif
-    endif
-
-    command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
-    command -nargs=0 Sysrc :silent! tabnew ~/.sysrc
-    " readonly.
-    command -nargs=0 Hosts :!sudo gvim /etc/hosts
-endif
 
 " theme, skin, color
 if g:OS#gui
-    "colo desert
-    "colo hotoo
-    "colo ir_desert
-    "colo manuscript
-    "colo colorzone
-    "colo fu
     colo hotoo_manuscript
-    "colo default
-    "colo emacs
-    "colo stackoverflow
-    "colo newspaper
-    "colo wombat
 endif
-
-hi TabLine     cterm=none ctermfg=lightgrey ctermbg=lightblue guifg=gray guibg=black
-hi TabLineSel  cterm=none ctermfg=lightgrey ctermbg=LightMagenta guifg=white guibg=black
-hi TabLineFill cterm=none ctermfg=lightblue ctermbg=lightblue guifg=black guibg=black
 
 
 " @see :help mbyte-IME
@@ -271,22 +91,6 @@ if has('multi_byte_ime')
 endif
 
 
-" FIXME: bugs by FIT.
-"if g:OS#mac && g:OS#gui
-    "set imdisable
-    "set imactivatekey=D-space
-    "set imsearch=0
-
-    "set imcmdline=0
-
-    "autocmd! InsertLeave * set iminsert=0|set imdisable
-
-    "autocmd! InsertLeave * set imdisable|set iminsert=0
-    "autocmd! InsertEnter * set noimdisable|set iminsert=2
-
-    "inoremap <ESC> <ESC>:set iminsert=0<CR>
-"endif
-
 
 " fonts
 " @see http://support.microsoft.com/kb/306527/zh-cn
@@ -294,57 +98,29 @@ endif
 " @see http://blog.xianyun.org/2009/09/14/vim-fonts.html
 if g:OS#win
     set guifont=Courier_New:h12:cANSI
-    "set guifont=Microsoft_YaHei_Mono:h11:cANSI
-
-    "set guifont=monaco:h11:cANSI
-    "set guifont=Consola:h11:cANSI
-    "set guifont=DajaVu:h11:cANSI
-    "set guifont=Lucida\ Console:h11:cANSI
-    "set guifontwide=YouYuan:h11:cGB2312
 elseif g:OS#mac
     set guifont=Courier_New:h16
+endif
+
+
+" set max window size.
+if g:OS#win && g:OS#gui
+    au GUIEnter * simalt ~x
+elseif g:OS#mac
+    set transparency=5
+    set columns=999
+    set lines=99
 elseif g:OS#unix
-endif
-
-" auto mkview and loadview.
-if !&diff
-    au BufWinLeave *.js,*.css silent mkview
-    au BufWinEnter *.js,*.css silent loadview
-endif
-
-
-" swrap file, auto backup.
-set nobackup
-if g:OS#win
-    set directory=$VIM\tmp
+    " for Gnome.
+    " $ sudo apt-get install wmctrl
+    " http://fluxbox.sourceforge.net/docbook/zh_cn/html/ch03s05.html
+    autocmd GUIEnter * silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
 else
-    set directory=~/.tmp
+    set columns=999
+    set lines=99
 endif
 
-if g:OS#win
-    let MRU_File = $VIM.'\_vim_mru_files'
-else
-    " try for Terminal.
-    try
-        let MRU_File = ~/.vim_mru_files
-    catch /.*/
-    endtry
-endif
-let MRU_Max_Entries = 1000
 
-
-if has("persistent_undo")
-    set undofile
-    set undolevels=1000
-
-    if g:OS#win
-        set undodir=$VIM\undodir
-        au BufWritePre undodir/* setlocal noundofile
-    else
-        set undodir=~/.undodir
-        au BufWritePre ~/.undodir/* setlocal noundofile
-    endif
-endif
 
 " 加速光标闪烁。
 " @see http://c9s.blogspot.com/2007/12/gvim.html
@@ -379,22 +155,24 @@ set number
 " fixed.
 set scrolloff=3
 
-if g:OS#gui
-    set autochdir
-    set colorcolumn=81
-endif
+set autochdir
+set colorcolumn=81
 
-" for Vim72-
-"syn match out80 /\%80v./ containedin=ALL
-"hi out80 guifg=#333333 guibg=#ffffff
+
+" auto wrap text.
+" NOTE: this setting will change text source.
+" set textwidth=80
+" set fo+=m
+
 
 " 设置宽度不明的文字(如 “”①②→ )为双宽度文本。
 " @see http://blog.sina.com.cn/s/blog_46dac66f010006db.html
 set ambiwidth=double
 
 
+" share system clipboard.
+"set clipboard+=unnamed
 
-set history=500
 
 " Show tab number in your tab line
 " @see http://vim.wikia.com/wiki/Show_tab_number_in_your_tab_line
@@ -404,13 +182,87 @@ if g:OS#gui
     set guitablabel=%N.%t
 endif
 
-" auto wrap text.
-" NOTE: this setting will change text source.
-" set textwidth=80
-" set fo+=m
 
-" share system clipboard.
-"set clipboard+=unnamed
+" swrap file, auto backup.
+set nobackup
+if g:OS#win
+    set directory=$VIM\_tmp
+else
+    set directory=~/.vim/.tmp
+endif
+
+
+" fullscreen
+let s:fullscreen = 0
+function! FullScreenToggle()
+    if g:OS#win
+        if has("libcall")
+            call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)
+        endif
+    elseif g:OS#mac
+        " 原生支持。
+        if &fullscreen
+            set nofullscreen
+        else
+            set fullscreen
+        endif
+    elseif g:OS#unix
+        " 系统设置->键盘快捷键->窗口管理->切换全屏模式(F11)
+        if executable("wmctrl")
+            if s:fullscreen
+                " FIXME.
+                silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+                let s:fullscreen = 0
+            else
+                silent !wmctrl -r :ACTIVE: -b add,fullscreen
+                let s:fullscreen = 1
+            endif
+        endif
+    endif
+endfunction
+command -nargs=0 FullScreen :call FullScreenToggle()
+
+
+" 快捷打开特定文件。
+if g:OS#win
+    au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
+    " @see http://practice.chatserve.com/hosts.html
+    command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
+
+    command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
+    command -nargs=0 Sysrc silent tabnew $VIM/sysrc.vim
+else
+    " readonly.
+    command -nargs=0 Hosts :!sudo gvim /etc/hosts
+
+    command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
+    command -nargs=0 Sysrc :silent! tabnew ~/.sysrc
+endif
+
+
+hi TabLine     cterm=none ctermfg=lightgrey ctermbg=lightblue guifg=gray guibg=black
+hi TabLineSel  cterm=none ctermfg=lightgrey ctermbg=LightMagenta guifg=white guibg=black
+hi TabLineFill cterm=none ctermfg=lightblue ctermbg=lightblue guifg=black guibg=black
+
+
+
+set history=500
+
+
+if has("persistent_undo")
+    set undofile
+    set undolevels=1000
+
+    if g:OS#win
+        set undodir=$VIM\_undodir
+        au BufWritePre _undodir/* setlocal noundofile
+    else
+        set undodir=~/.vim/.undodir
+        au BufWritePre ~/.vim/.undodir/* setlocal noundofile
+    endif
+endif
+
+
 
 " User Defined Status Line.
 " @see http://www.vim.org/scripts/script.php?script_id=8 for VimBuddy.
@@ -434,16 +286,17 @@ function! GetFileTime()
 endfunction
 command -nargs=0 LastModify :call GetFileTime()
 
+
+
 set laststatus=2
 set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B]\ [%{&ft==''?'TEXT':toupper(&ft)},%{toupper(&ff)},%{toupper(&fenc!=''?&fenc:&enc)}%{&bomb?',BOM':''}%{&eol?'':',NOEOL'}]
 "let &statusline=' %t %{&mod?(&ro?"*":"+"):(&ro?"=":" ")} %1*|%* %{&ft==""?"any":&ft} %1*|%* %{&ff} %1*|%* %{(&fenc=="")?&enc:&fenc}%{(&bomb?",BOM":"")} %1*|%* %=%1*|%* 0x%B %1*|%* (%l,%c%V) %1*|%* %L %1*|%* %P'
 "hi User1 cterm=italic ctermfg=blue
 "hi User2 cterm=bold
 
-" }}}
 
+" =========== Mappings =============
 
-" ------------------------------- Mappings ------------------------------ {{{
 " Normal Mode, Visual Mode, and Select Mode,
 " use <Tab> and <Shift-Tab> to indent
 " @see http://c9s.blogspot.com/2007/10/vim-tips.html
@@ -452,36 +305,7 @@ set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-" TODO:
-" join more lines without space in chinese.
-" some like 'gJ', but ignore invalid space.
-function! JoinPlus()
-    let cur = getpos(".")
-    let startLine = line(".")
-    let offset = v:count1>2 ? v:count1 - 1 : 1
-    let endLine = startLine + offset
-    let reEmpty = "^\s*$"
-    let reStart = "[^ \t]"
-    let reEnd = "[a-zA-Z0-9][ \t]*$"
-    let reLetter = ""
-    let txt = getline(startLine)
-    if(0!=match(txt, reEmpty))
-        let txt = strpart(txt, 0, match(txt, reEnd))
-    endif
-    let len = strlen(txt)
-    let lineIdx = startLine+1
-    while lineIdx<=endLine
-        let txt = txt . getline(lineIdx)
-        let lineIdx = lineIdx+1
-    endwhile
-    call setline(".", txt)
-    exec 'normal j"_'.offset.'ddk'
-endfunction
-"nmap J :<C-U>call JoinPlus()<cr>
 
-" 选中一段文字并全文搜索这段文字
-vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
-vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 inoremap ( <c-r>=OpenPair('(')<CR>
 inoremap ) <c-r>=ClosePair(')')<CR>
@@ -562,6 +386,7 @@ function! CompleteQuote(quote)
     endif
 endfunction
 
+
 " [count]<Space> key in normal model.
 nmap <space> :<C-U>call NormalSpace()<cr>
 function! NormalSpace()
@@ -570,11 +395,6 @@ function! NormalSpace()
     call setline(line("."), strpart(text,0,col).repeat(" ", v:count1).strpart(text,col))
     exec "normal ".v:count1."l"
 endfunction
-
-" Change Assignment(=) Expression.
-" @see http://c9s.blogspot.com/2007/09/vim-tip.html
-nmap c=r $F=lcf;
-nmap c=l $F=c^
 
 
 " use Meta key(Windows:Alt) to move cursor in insert mode.
@@ -651,11 +471,14 @@ endfunction
 " Open Windows Explorer and Fouse current file.
 " or open Mac Finder.
 "                                      %:p:h     " Just Fold Name.
-nmap <F6> :call FileExplorer("")<cr>
-imap <F6> <C-o><F6>
-command -nargs=0 Explorer :call FileExplorer("")
+command -nargs=0 FileExplorer :silent call FileExplorer("")
+if g:OS#mac
+    command -nargs=0 Finder :silent call FileExplorer("")
+endif
+
 
 let g:use_bash="zsh"
+
 " 打开终端窗口。
 " TODO: 默认打开指定的目录。
 " TODO: MacVim 的等待提示。
@@ -672,10 +495,12 @@ function! OpenBash(...)
 
     exec bash
 endfunction
-command -nargs=? Cmdhere call OpenBash(<f-args>)
-command -nargs=? Bashere call OpenBash(<f-args>)
-command -nargs=? Bashhere call OpenBash(<f-args>)
+command -nargs=? Cmdhere silent call OpenBash(<f-args>)
+command -nargs=? Bashere silent call OpenBash(<f-args>)
+command -nargs=? Bashhere silent call OpenBash(<f-args>)
 command SHELL silent cd %:p:h|silent exe "!start cmd"|silent cd -
+
+
 
 
 " tab navigation & operation like tabs browser
@@ -735,69 +560,6 @@ else
     nmap <M-0> :tablast<cr>
 endif
 
-" @see http://blog.chinaunix.net/u/8681/showart_1226043.html
-" @usage 50g| jump to 50% of the lines columns.
-nnoremap <expr> g<Bar> '<Esc>' . float2nr( round( (col('$')-1) * min([100, v:count]) / 100.0)) . '<Bar>'
-
-function QFixState()
-    return len(getqflist())
-endfunction
-
-" QUICKFIX WINDOW
-" @see http://c9s.blogspot.com/2007/10/vim-quickfix-windows.html
-command -bang -nargs=? QFix call QFixToggle(<bang>0)
-function! QFixToggle(forced)
-    if exists("g:qfix_win") && a:forced == 0
-        cclose
-        unlet g:qfix_win
-    else
-        copen 10
-        let g:qfix_win = bufnr("$")
-    endif
-endfunction
-"nnoremap <leader>q :QFix<CR>
-
-" close quickfix window.
-"nmap <F4> :cclose<CR>
-nmap <F4> :cw<CR>
-" compile c/cpp code.
-autocmd FileType cpp,c nmap <buffer> <F9> :setlocal makeprg=make<cr>:make<cr> :copen<cr> <C-W>10_
-"autocmd FileType cpp,c nmap <buffer> <F10> :exe "!gcc -o ".expand("%:r").".exe ".expand("%")<cr>
-"autocmd FileType cpp,c nmape <buffer> <F10> :!gcc -o %:r.exe %<cr>
-" @see http://easwy.com/blog/archives/advanced-vim-skills-quickfix-mode/
-"      http://blog.zdnet.com.cn/html/30/422230-2881199.html
-autocmd FileType cpp nmap <buffer> <F10> :w<cr>:setlocal makeprg=g++\ -Wall\ -o\ %:r.exe\ %<cr>:make<cr><cr>:cw<cr>
-autocmd FileType c nmap <buffer> <F10> :w<cr>:setlocal makeprg=gcc\ -Wall\ -o\ %:r.exe\ %<cr>:make<cr><cr>:cw<cr>
-" run current code.
-autocmd FileType cpp,c nmap <buffer> <F5> :!%:r.exe
-autocmd FileType dosbatch nmap <buffer> <F5> :!%<cr><cr>
-
-autocmd FileType mxml,actionscript nmap <buffer> <F10> :w<cr>:setlocal makeprg=mxmlc\ -output\ %:r.swf\ %<cr>:make<cr><cr>:cw<cr>
-
-autocmd FileType css syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-"autocmd FileType velocity let b:match_words = '#if\>:#elseif\>:#else\>:#end\>'
-		"\ . ',#foreach\>:#end\>'
-        "\ . ',#macro\>:#end\>'
-
-au BufReadCmd   *.epub      call zip#Browse(expand("<amatch>"))
-
-
-" Processing
-function! RunP5()
-    let processing_path="C:\\Program Files\\processing-1.0.9"
-    let java_home=processing_path.'\\java'
-    let class_path=java_home."\\lib\\rt.jar;".java_home."\\lib\\tools.jar;".processing_path."\\lib\\antlr.jar;".processing_path."\\lib\\core.jar;".processing_path."lib\\ecj.jar;".processing_path."\\lib\\jna.jar;".processing_path."\\lib\\pde.jar"
-    silent execute '!start '.java_home.'\\bin\\java -classpath "'.class_path.'" processing.app.Commander --sketch="'.expand("%:h").'" --output="output" --run'
-endfunction
-autocmd FileType processing nnoremap <buffer> <silent> <F9> :up<CR>:call RunP5()<CR>
-autocmd FileType processing so $VIM/vimfiles/autoload/processing_omni.vim
-autocmd FileType processing set ofu=OmniProcessing
-
-" auto complete drop list.
-set completeopt=longest,menu
-imap <C-L> <C-x><C-o>
-
 
 " Toggle Menu and Toolbar
 " @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
@@ -813,139 +575,25 @@ if g:OS#gui
         \endif<CR>
 endif
 
-" Dynamic bind <HOME> key
-" if caret/cursor not at the frist non-white-space character
-"   move caret/cursor to there
-" else
-"   move to beginning
-function HomeBind(offset)
-    let cursor=getpos('.')
-    let s0=getline(line('.'))
-    let s1=substitute(s0, "^\\s\\+", "", "")
-    let x=len(s0)-len(s1)+1
-    if col('.') == x-a:offset
-        let x=1
-    endif
-    call setpos('.', [cursor[0], cursor[1], x, cursor[3]])
-endfunction
-imap <silent> <Home> <Esc>:call HomeBind(1)<cr>i
-nmap <silent> <Home> :call HomeBind(0)<cr>
-vmap <silent> <Home> <Esc>:call HomeBind(1)<cr>
+
+" =========== Plugins ==============
+
+" MRU.vim
+" try for Terminal.
+try
+    let MRU_File = VIM_HOME . TMP_POSTFIX . "vim_mru_files"
+catch /.*/
+endtry
+let MRU_Max_Entries = 1000
 
 
-" Dynamic bind <END> key
-" if caret/cursor not at the end
-"   move caret/cursor to there
-" else
-"   move to last non-white-space character.
-function EndBind(offset)
-    let cursor=getpos('.')
-    let s0=getline(line('.'))
-    let s1=substitute(s0, "\\s*$", "", "")
-    let x=len(s0)+a:offset
-    if col('.') == x
-        let x=len(s1)+a:offset
-    endif
-    call setpos('.', [cursor[0], cursor[1], x, cursor[3]])
-endfunction
-imap <silent> <End> <Esc>:call EndBind(0)<cr>a
-nmap <silent> <End> :call EndBind(0)<cr>
-vmap <silent> <End> :call EndBind(0)<cr>
-":nmap <End> /\S\s*$<CR>:nohl<CR>
-
-
-" place in vimrc
-"nmap <silent><Home> :call SmartHome("n")<CR>
-"nmap <silent><End> :call SmartEnd("n")<CR>
-"imap <silent><Home> <C-r>=SmartHome("i")<CR>
-"imap <silent><End> <C-r>=SmartEnd("i")<CR>
-"vmap <silent><Home> <Esc>:call SmartHome("v")<CR>
-"vmap <silent><End> <Esc>:call SmartEnd("v")<CR>
-
-function SmartHome(mode)
-  let curcol = col(".")
-  "gravitate towards beginning for wrapped lines
-  if curcol > indent(".") + 2
-    call cursor(0, curcol - 1)
-  endif
-  if curcol == 1 || curcol > indent(".") + 1
-    if &wrap
-      normal g^
-    else
-      normal ^
-    endif
-  else
-    if &wrap
-      normal g0
-    else
-      normal 0
-    endif
-  endif
-  if a:mode == "v"
-    normal msgv`s
-  endif
-  return ""
-endfunction
-
-function SmartEnd(mode)
-  let curcol = col(".")
-  let lastcol = a:mode == "i" ? col("$") : col("$") - 1
-  "gravitate towards ending for wrapped lines
-  if curcol < lastcol - 1
-    call cursor(0, curcol + 1)
-  endif
-  if curcol < lastcol
-    if &wrap
-      normal g$
-    else
-      normal $
-    endif
-  else
-    normal g_
-  endif
-  "correct edit mode cursor position, put after current character
-  if a:mode == "i"
-    call cursor(0, col(".") + 1)
-  endif
-  if a:mode == "v"
-    normal msgv`s
-  endif
-  return ""
-endfunction
-
-" }}}
-
-" ------------------------------- Commands ------------------------------ {{{
-" @see http://www.vim.org/scripts/script.php?script_id=687
-" @see http://code.google.com/p/easy-vim/downloads/detail?name=vimtweak.dll
-command -nargs=1 Alpha :call libcallnr("vimtweak.dll", "SetAlpha", <args>)
-command -nargs=0 MaxWin :call libcallnr("vimtweak.dll", "EnableMaximize", 1)
-command -nargs=0 MinWin :call libcallnr("vimtweak.dll", "EnableMaximize", 0)
-command -nargs=0 TopWin :call libcallnr("vimtweak.dll", "EnableTopMost", 1)
-command -nargs=0 UnTopWin :call libcallnr("vimtweak.dll", "EnableTopMost", 0)
-
-
-if g:OS#win
-    "autocmd FileType xhtml,html command! -nargs=0 IE :call Save2Temp()<cr><cr>:!start RunDll32.exe shell32.dll,ShellExec_RunDLL %:p<cr>
-    autocmd FileType xhtml,html command! -nargs=0 FF :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 IE6 :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 IE7 :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 IE8 :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 SA :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 OP :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-    autocmd FileType xhtml,html command! -nargs=0 CH :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
-endif
-" }}}
-
-" -------------------------------- Plugins ------------------------------ {{{
-" vimwiki
+" Vimwiki.vim
 let g:vimwiki_use_mouse = 1
 let g:vimwiki_camel_case = 0
 let g:vimwiki_CJK_length = 1
 let g:vimwiki_use_calendar = 0
 let g:vimwiki_timestamp_format='%Y年%m月%d日 %H:%M:%S'
 let g:vimwiki_user_htmls = "search.html,404.html"
-
 
 
 " autocomplpop.vim, acp.vim
@@ -969,51 +617,6 @@ if g:OS#win
 else
     autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 endif
-"autocmd FileType erlang let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k~/.vim/dict/erlang.dict'
-
-
-" Just for AutoComplPop css url.
-" but more bugs in other place.
-"if exists('+shellslash')
-    "set shellslash                          " FileNameComplete by slash(/)
-"endif
-
-"autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-"autocmd FileType velocity set omnifunc=velocitycomplete#CompleteTags
-
-autocmd FileType javascript setl dictionary=$VIM/vimfiles/dict/javascript.dict,$VIM/vimfiles/dict/jQuery.dict,$VIM/vimfiles/dict/jQuery.dict
-"autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
-
-
-" Doxygen
-" @see http://www.vim.org/scripts/script.php?script_id=5
-" @see http://www.vim.org/scripts/script.php?script_id=987
-" @see http://www.jeffhung.net/blog/articles/jeffhung/447/
-" @see http://blog.csdn.net/AD_LI/archive/2009/08/24/4474878.aspx
-let g:DoxygenToolkit_authorName="闲耘™ (@hotoo, mail@xianyun.org)"
-let s:licenseTag = "Copyleft(C)\<enter>"
-let s:licenseTag = s:licenseTag . "For 闲耘™\<enter>"
-let s:licenseTag = s:licenseTag . "Some right reserved\<enter>"
-let g:DoxygenToolkit_licenseTag = s:licenseTag
-let g:DoxygenToolkit_briefTag_funcName="yes"
-let g:doxygen_enhanced_color=1
-
-
-" jsLint
-" @see http://www.gracecode.com/category/496/
-" @see http://www.vim.org/scripts/script.php?script_id=2578
-" @see http://www.javascriptlint.com/index.htm
-if g:OS#win
-    let g:jslint_command = $VIM.'\vimfiles\jslint\jsl.exe'
-else
-    let g:jslint_command = '~/.vim/jslint/jsl'
-endif
-"map <C-s><C-j> :call JsonLint()<cr>
-
-
-" css color
-" @see http://www.gracecode.com/archives/977/
-" @see http://www.vim.org/scripts/script.php?script_id=2150
 
 
 " Calendar
@@ -1039,70 +642,9 @@ imap <F3> <Esc>:ToggleNERDTree<cr>
 nmap <F3> :ToggleNERDTree<cr>
 
 
-" for javascript.vim
-" enable javascript fold
-"let javascript_fold=1
-" enable support dom, html and css for javascript
-"let javascript_enable_domhtmlcss=1
+" Powerline.vim
+let g:Powerline_symbols = 'fancy' " require fontpatcher
 
-
-" ctags, TagList, Tagbar.
-" @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
-if g:OS#win
-    let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
-    let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
-	let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
-elseif g:OS#mac
-    let g:ctags_path='~/.vim/plugin/ctags'
-    let Tlist_Ctags_Cmd= '/usr/bin/ctags'
-	let g:tagbar_ctags_bin='~/.vim/plugin/ctags'
-else
-endif
-let g:ctags_statusline=1
-let g:ctags_args=1
-let g:Tlist_Use_Right_Window=1
-let g:Tlist_Show_One_File = 1
-let g:Tlist_Exit_OnlyWindow = 1
-let g:Tlist_WinWidth=25
-nnoremap <F12> :TlistToggle<CR>
-
-let tlist_vimwiki_settings = 'wiki;h:Headers'
-let tlist_confluencewiki_settings = 'confluencewiki;h:Headers'
-let tlist_markdown_settings = 'markdown;h:Headers'
-let tlist_textile_settings = 'textile;h:Headers'
-let tlist_html_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
-let tlist_xhtml_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
-let tlist_velocity_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
-let tlist_css_settings = 'css;c:Classes;o:Objects(ID);t:Tags(Elements)'
-let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
-
-
-" snipMate
-" text+<TAB> to Auto Complete Code Fragments.
-" @see http://www.vim.org/scripts/script.php?script_id=2540
-" @see http://code.google.com/p/snipmate/
-" @see http://vimeo.com/3535418
-let snips_author="闲耘™ (hotoo.cn[AT]gmail.com)"
-
-" for smart template.vim
-let g:template_author = '闲耘™ (hotoo.cn[AT]gmail.com)'
-
-" }}}
-
-" ------------------------------- Folding ---------------------------- {{{
-":au BufNewFile,BufRead *.xml,*.htm,*.html so ~/.vim/plugin/XMLFolding.vim
-if g:OS#win
-    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so $VIM/vimfiles/ftplugin/xml/xml_fold.vim
-else
-    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so ~/.vim/ftplugin/xml/xml_fold.vim
-endif
-
-
-" velocity default encoding setting.
-"au BufNewFile,BufRead *.vm setl fenc=gbk
-au BufRead,BufNewFile *.vm set ft=html fileencoding=gbk syntax=velocity
-
-" }}}
 
 " --------------------------- Macros & Functions ------------------------ {{{
 " Remove trailing whitespace when writing a buffer, but not for diff files.
@@ -1125,52 +667,10 @@ highlight WhitespaceEOL ctermbg=yellow guibg=yellow
 syntax match WhitespaceEOL /\s\+$/
 
 
-" get week day string in chinese.
-function! Week_cn()
-    return strftime("%A")
-    "let len = strlen("日")
-    "return "星期".strpart("日一二三四五六", strftime("%w")*len, len)
-endfunction
+" ================== for some spec ===================
 
+" velocity default encoding setting.
+au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
 
-func! Nr2Hex(nr)
-    let n = a:nr
-    let r = ""
-    while n
-        let r = '0123456789ABCDEF'[n % 16] . r
-        let n = n / 16
-    endwhile
-    return r
-endfunc
-" Character to Unicode Number.
-function! Char2hex(c)
-  if a:c =~# '^[:cntrl:]$' | return '' | endif
-  let r = ''
-  for i in range(strlen(a:c))
-    let r .= printf('%%%02X', char2nr(a:c[i]))
-  endfor
-  return r
-endfunction
-function! ToUnicode(str, ...)
-    let re = ""
-    let chars = split(a:str, '\zs')
-    let format = (a:0 == 2) ? a:2 : '%u${U}'
-    for char in chars
-        let re .= substitute(format, '${U}', Nr2Hex(char2nr(char)), '')
-    endfor
-    return re
-endfunction
-autocmd FileType css command! -range -nargs=0 ToUnicode <line1>,<line2>call ToUnicode(<f-args>, "\\${U}")
-" }}}
-
-" Chinese Docs
-if g:OS#win
-    let helptags=$VIM.'\vimfiles\doc'
-else
-    let helptags='~/.vim/doc'
-endif
-set helplang=cn
-
-let g:uisvr_opening_window = "tabnew"
 
 " vim:fdm=marker
