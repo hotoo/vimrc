@@ -150,17 +150,18 @@ set fileformat=unix
 set fileformats=unix,dos,mac
 
 " set default(normal) window size.
-set columns=90
-set lines=30
+set lines=999
+set columns=200
 
 let s:lines = str2nr(&lines)
 let s:columns = str2nr(&columns)
 function! MaximumWindow()
     if g:OS#win
         set lines=999
-        set columns=9999
+        set columns=200
     else
         set lines=999
+        set columns=200
     endif
 endfunction
 function! NoMaximumWindow()
@@ -237,11 +238,23 @@ else
         endif
     endif
 
+    if g:OS#mac
+        " for Mac OS X 10.5 和 10.6
+        "au! bufwritepost hosts silent !sudo dscacheutil -flushcache
+        "
+        " for Lion(10.7) and Mountain Lion(10.8)
+        "au! bufwritepost hosts silent !sudo killall -HUP mDNSResponder
+    endif
+
     command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
     command -nargs=0 Sysrc :silent! tabnew ~/.sysrc
     " readonly.
     command -nargs=0 Hosts :!sudo gvim /etc/hosts
+    command -nargs=0 Httpd :!sudo gvim /etc/apache2/httpd.conf
 endif
+
+command -nargs=0 Blog :silent! tabnew ~/Sites/blog.hotoo.me/content/index.md
+
 
 " theme, skin, color
 if g:OS#gui
@@ -317,8 +330,10 @@ endif
 set nobackup
 if g:OS#win
     set directory=$VIM\tmp
+    set backupdir=$VIM\bak
 else
     set directory=~/.tmp
+    set backupdir=~/.bak
 endif
 
 if g:OS#win
@@ -353,16 +368,37 @@ endif
 "set guicursor+=v:ver90-cursor-blinkwait200-blinkon150-blinkoff150
 
 " Tabs
-set softtabstop=4
+set smarttab
 set expandtab       " replace tab to whitespace.
-set tabstop=4       " show tab indent word space.
-set shiftwidth=4    " tab length
+set tabstop=2       " show tab indent word space.
+set softtabstop=2
+set shiftwidth=2    " tab length
 
 "autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2 | setl shiftwidth=2
+"autocmd FileType markdown,vimwiki setl softtabstop=4 | setl tabstop=4 | setl shiftwidth=4
+autocmd FileType vimwiki setl nowrap | setl textwidth=0
+
+
+" 自动检查文件内容中的编码设置，并在保存文件时使用该编码。
+if !exists("g:auto_dect_enc")
+    let g:auto_dect_enc = 1
+endif
+function! Auto_dect_enc()
+    let re = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+    let re5 = '<meta charset="UTF-8" />'
+endfunction
+function! Auto_save_enc()
+endfunction
+"if g:autodectHTML_Encoding == 1
+    "autocmd BufWritePre *.html,*.htm,*.vm call auto_dect_enc()
+"endif
 
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
 set smartindent
+
+set hlsearch
+set incsearch
 
 set splitright
 "set splitbelow
@@ -406,11 +442,21 @@ endif
 
 " auto wrap text.
 " NOTE: this setting will change text source.
-" set textwidth=80
-" set fo+=m
+set textwidth=80
+autocmd filetype html setlocal textwidth=120
+set fo+=m         "formatoptions
 
 " share system clipboard.
 "set clipboard+=unnamed
+
+
+" velocity default encoding setting.
+"au BufNewFile,BufRead *.vm setl fenc=gbk
+au BufRead,BufNewFile *.vm setl ft=html fileencoding=gbk syntax=velocity
+
+au BufNewFile,BufRead *.mxml set filetype=mxml
+au BufNewFile,BufRead *.as set filetype=actionscript
+
 
 " User Defined Status Line.
 " @see http://www.vim.org/scripts/script.php?script_id=8 for VimBuddy.
@@ -439,6 +485,7 @@ set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B
 "let &statusline=' %t %{&mod?(&ro?"*":"+"):(&ro?"=":" ")} %1*|%* %{&ft==""?"any":&ft} %1*|%* %{&ff} %1*|%* %{(&fenc=="")?&enc:&fenc}%{(&bomb?",BOM":"")} %1*|%* %=%1*|%* 0x%B %1*|%* (%l,%c%V) %1*|%* %L %1*|%* %P'
 "hi User1 cterm=italic ctermfg=blue
 "hi User2 cterm=bold
+" statusline
 
 " }}}
 
@@ -813,6 +860,8 @@ if g:OS#gui
         \endif<CR>
 endif
 
+echo &guioptions
+
 " Dynamic bind <HOME> key
 " if caret/cursor not at the frist non-white-space character
 "   move caret/cursor to there
@@ -935,6 +984,16 @@ if g:OS#win
     autocmd FileType xhtml,html command! -nargs=0 OP :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
     autocmd FileType xhtml,html command! -nargs=0 CH :call Save2Temp()<cr><cr>:!start "E:\Mozilla Firefox\firefox.exe" -P debug %<cr>
 endif
+
+
+function! BlogDrafts()
+  setlocal makeprg=make
+  make drafts
+  copen
+endfunction
+
+autocmd FileType markdown command! -nargs=0 Drafts call BlogDrafts()
+
 " }}}
 
 " -------------------------------- Plugins ------------------------------ {{{
@@ -943,6 +1002,7 @@ let g:vimwiki_use_mouse = 1
 let g:vimwiki_camel_case = 0
 let g:vimwiki_CJK_length = 1
 let g:vimwiki_use_calendar = 0
+"let g:vimwiki_list_ignore_newline = 0
 let g:vimwiki_timestamp_format='%Y年%m月%d日 %H:%M:%S'
 let g:vimwiki_user_htmls = "search.html,404.html"
 
@@ -1053,11 +1113,22 @@ if g:OS#win
     let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
 	let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
 elseif g:OS#mac
-    let g:ctags_path='~/.vim/plugin/ctags'
-    let Tlist_Ctags_Cmd= '/usr/bin/ctags'
-	let g:tagbar_ctags_bin='~/.vim/plugin/ctags'
+    let g:ctags_path='/usr/local/bin/ctags'
+    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
+	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 else
 endif
+
+let g:tagbar_type_markdown = {
+	\ 'ctagstype' : 'markdown',
+	\ 'kinds' : [
+		\ 'h:header',
+		\ 'i:header',
+		\ 'k:header'
+	\ ],
+    \ 'sort': 0
+\ }
+
 let g:ctags_statusline=1
 let g:ctags_args=1
 let g:Tlist_Use_Right_Window=1
@@ -1092,15 +1163,10 @@ let g:template_author = '闲耘™ (hotoo.cn[AT]gmail.com)'
 " ------------------------------- Folding ---------------------------- {{{
 ":au BufNewFile,BufRead *.xml,*.htm,*.html so ~/.vim/plugin/XMLFolding.vim
 if g:OS#win
-    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so $VIM/vimfiles/ftplugin/xml/xml_fold.vim
+"    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so $VIM/vimfiles/ftplugin/xml/xml_fold.vim
 else
-    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so ~/.vim/ftplugin/xml/xml_fold.vim
+"    au BufNewFile,BufRead *.xml,*.htm,*.html,*.vm,*.php,*.jsp so ~/.vim/ftplugin/xml/xml_fold.vim
 endif
-
-
-" velocity default encoding setting.
-"au BufNewFile,BufRead *.vm setl fenc=gbk
-au BufRead,BufNewFile *.vm set ft=html fileencoding=gbk syntax=velocity
 
 " }}}
 
@@ -1172,5 +1238,65 @@ endif
 set helplang=cn
 
 let g:uisvr_opening_window = "tabnew"
+
+if &diff
+  let g:loaded_syntastic_plugin = 1
+else
+  let g:syntastic_javascript_closure_compiler_path = "~/Library/closure-compiler/compiler.jar"
+  let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
+  let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
+  let g:syntastic_always_populate_loc_list=1
+  let g:syntastic_check_on_open=1
+  let g:syntastic_check_on_wq=0
+  let g:syntastic_enable_signs=1
+  let g:syntastic_error_symbol='✗'
+  let g:syntastic_warning_symbol='⚠'
+
+  highlight SyntasticErrorSign guifg=red guibg=#555555
+  highlight SyntasticWarningSign guifg=yellow guibg=#555555
+  highlight SignColumn guibg=#555555
+endif
+
+let g:instant_markdown_autostart = 0
+
+
+
+"" {{{ Vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+Bundle 'hotoo/vimwiki'
+Bundle 'hotoo/uisvr.vim'
+Bundle 'hotoo/calendar-vim'
+Bundle 'hotoo/template.vim'
+Bundle 'mru.vim'
+Bundle 'The-NERD-tree'
+Bundle 'hotoo/NERD_tree-Project'
+Bundle 'The-NERD-Commenter'
+Bundle 'AutoComplPop'
+"Bundle 'snipMate'
+Bundle 'hotoo/snipmate.vim'
+Bundle 'velocity.vim'
+Bundle 'ZenCoding.vim'
+Bundle 'TaskList.vim'
+Bundle 'taglist.vim'
+Bundle 'Tagbar'
+Bundle 'tpope/vim-markdown'
+"Bundle 'project.vim'
+"Bundle 'vimcn/project.vim.cnx'
+"Bundle 'suan/vim-instant-markdown'
+Bundle 'terryma/vim-instant-markdown'
+"Bundle 'tomtom/checksyntax_vim'
+"Bundle 'tomtom/vimtlib'
+Bundle 'scrooloose/syntastic'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'kchmck/vim-coffee-script'
+"" }}}
+
+
 
 " vim:fdm=marker
