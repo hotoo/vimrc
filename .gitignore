@@ -14,3 +14,8 @@ mru-list.txt
 vim72/*
 _vim_mru_files
 ieVim.lnk
+*.swp
+bundle/
+.tmp/
+.undodir/
+.vim_mru_files

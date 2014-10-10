@@ -1,0 +1,22 @@
+
+let g:vimwiki_list = [{'path': '~/Dropbox/VimPrivateWiki'},
+        \ {
+            \ 'path'        : '~/Dropbox/vimwiki/wiki',
+            \ 'path_html'   : '~/wiki.hotoo.me',
+            \ 'ext': '.md',
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
+        \ }
+        \ ]
+
+
+" Calendar.vim
+"let g:calendar_diary=$VIM.'\vimfiles\calendar_data\'
+let g:calendar_diary='~/Dropbox/calendars/tasks'
+let g:calendar_list = [
+    \   {'name': 'Tasks', 'path': '~/Dropbox/calendars/tasks', 'ext': 'md'},
+    \   {'name': 'Diary', 'path': '~/Dropbox/calendars/diary', 'ext': 'md'},
+    \   {'name': 'Note', 'path': '~/Dropbox/calendars/notes', 'ext': 'md'},
+    \ ]
+let g:calendar_current_idx = 0
+
+" vim:ft=vim

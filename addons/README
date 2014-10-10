@@ -1,5 +1,0 @@
-validate-css.bat
-validate-html.bat
-用来通过 w3c 验证的脚本，配合 ftplugin/css/validate.vim 和
-ftplugin/html/validate.vim 调用。
-放置到系统环境变量所在目录（如 c:/windows/system32/）。
