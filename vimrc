@@ -280,13 +280,13 @@ if g:OS#win
     command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
 
     command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
-    command -nargs=0 Sysrc silent tabnew $VIM/sysrc.vim
+    command -nargs=0 Sysrc silent tabnew $VIM/vimfiles/sysrc
 else
     " readonly.
     command -nargs=0 Hosts :!sudo gvim /etc/hosts
 
     command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
-    command -nargs=0 Sysrc :silent! tabnew ~/.sysrc
+    command -nargs=0 Sysrc :silent! tabnew ~/.vim/sysrc
 endif
 
 
