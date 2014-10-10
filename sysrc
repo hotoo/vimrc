@@ -1,9 +1,22 @@
 
-let g:vimwiki_list = [{'path': '~/Dropbox/VimPrivateWiki'},
+let g:vimwiki_list = [
+        \ {'path': '~/Dropbox/VimPrivateWiki'},
         \ {
-            \ 'path'        : '~/Dropbox/vimwiki/wiki',
-            \ 'path_html'   : '~/wiki.hotoo.me',
+            \ 'path'        : '~/workbench/hotoo/wiki.hotoo.me/wiki/',
             \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
+        \ },
+        \ {
+            \ 'path'        : '~/workbench/hotoo/blog.hotoo.me/content/',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
+        \ },
+        \ {
+            \ 'path'        : '~/workbench/saijs/wiki/content/wiki/',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
         \ }
         \ ]
