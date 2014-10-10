@@ -38,12 +38,29 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
+Bundle 'bling/vim-airline'
+"Bundle 'mhinz/vim-signify'
+Bundle 'tpope/vim-fugitive'
+Bundle 'AutoComplPop'
+Bundle 'velocity.vim'
+Bundle 'ZenCoding.vim'
+Bundle 'TaskList.vim'
+Bundle 'taglist.vim'
+Bundle 'tagbar'
+"Bundle 'majutsushi/tagbar'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'groenewege/vim-less'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'mru.vim'
+Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
-Bundle 'majutsushi/tagbar'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'honza/vim-snippets'
-Bundle 'garbas/vim-snipmate'
+Bundle 'scrooloose/syntastic'
+Bundle 'hotoo/NERD_tree-Project'
+Bundle 'hotoo/calendar-vim'
+Bundle 'hotoo/snipmate.vim'
+Bundle 'hotoo/vimwiki'
+Bundle 'tpope/vim-markdown'
 
 
 
@@ -128,8 +145,14 @@ endif
 if g:OS#win
     set guifont=Courier_New:h12:cANSI
 elseif g:OS#mac
-    set guifont=Courier_New:h16
+    "set guifont=Courier_New:h16
+    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    set guifont=Sauce\ Code\ Powerline:h14
+
+    let g:airline_powerline_fonts = 1
 endif
+
+
 
 
 " set max window size.
@@ -158,16 +181,19 @@ endif
 "set guicursor+=v:ver90-cursor-blinkwait200-blinkon150-blinkoff150
 
 " Tabs
-set softtabstop=4
+set softtabstop=2
 set expandtab       " replace tab to whitespace.
-set tabstop=4       " show tab indent word space.
-set shiftwidth=4    " tab length
+set tabstop=2       " show tab indent word space.
+set shiftwidth=2    " tab length
 
 "autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2 | setl shiftwidth=2
 
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
 set smartindent
+
+set hlsearch
+set incsearch
 
 set splitright
 "set splitbelow
@@ -188,15 +214,9 @@ set autochdir
 set colorcolumn=81
 
 
-" auto wrap text.
-" NOTE: this setting will change text source.
-" set textwidth=80
-" set fo+=m
-
-
 " 设置宽度不明的文字(如 “”①②→ )为双宽度文本。
 " @see http://blog.sina.com.cn/s/blog_46dac66f010006db.html
-set ambiwidth=double
+"set ambiwidth=double " 设置该选项，会导致 airline/powerline 的右侧会出现脱节。
 
 
 " share system clipboard.
@@ -610,7 +630,7 @@ endif
 " MRU.vim
 " try for Terminal.
 try
-    let MRU_File = VIM_HOME . TMP_POSTFIX . "vim_mru_files"
+    let MRU_File=~/.vim/.vim_mru_files
 catch /.*/
 endtry
 let MRU_Max_Entries = 1000
@@ -673,6 +693,67 @@ nmap <F3> :ToggleNERDTree<cr>
 
 " Powerline.vim
 let g:Powerline_symbols = 'fancy' " require fontpatcher
+
+
+" Syntastic
+if &diff
+  let g:loaded_syntastic_plugin = 1
+else
+  let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
+  let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
+  let g:syntastic_always_populate_loc_list=1
+  let g:syntastic_check_on_open=1
+  let g:syntastic_check_on_wq=0
+  let g:syntastic_enable_signs=1
+  let g:syntastic_error_symbol='✗'
+  let g:syntastic_warning_symbol='⚠'
+
+  highlight SyntasticErrorSign guifg=red guibg=#555555
+  highlight SyntasticWarningSign guifg=yellow guibg=#555555
+  highlight SignColumn guibg=#555555
+endif
+
+
+" ctags, TagList, Tagbar.
+" @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
+if g:OS#win
+    let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
+    let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
+	let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
+elseif g:OS#mac
+    let g:ctags_path='/usr/local/bin/ctags'
+    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
+	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+else
+endif
+
+let g:tagbar_type_markdown = {
+	\ 'ctagstype' : 'markdown',
+	\ 'kinds' : [
+		\ 'h:header',
+		\ 'i:header',
+		\ 'k:header'
+	\ ],
+    \ 'sort': 0
+\ }
+
+let g:ctags_statusline=1
+let g:ctags_args=1
+let g:Tlist_Use_Right_Window=1
+let g:Tlist_Show_One_File = 1
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_WinWidth=25
+nnoremap <F12> :TlistToggle<CR>
+
+let tlist_vimwiki_settings = 'wiki;h:Headers'
+let tlist_confluencewiki_settings = 'confluencewiki;h:Headers'
+let tlist_markdown_settings = 'markdown;h:Headers'
+let tlist_textile_settings = 'textile;h:Headers'
+let tlist_html_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
+let tlist_xhtml_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
+let tlist_velocity_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
+let tlist_css_settings = 'css;c:Classes;o:Objects(ID);t:Tags(Elements)'
+let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
 
 
 " --------------------------- Macros & Functions ------------------------ {{{

@@ -51,5 +51,5 @@ $ git clone git@github.com:hotoo/vimrc.git ~/.vim
 $ cd ~/.vim
 $ make install
 $
-$ vim sysrc.vim
+$ vim sysrc
 ```

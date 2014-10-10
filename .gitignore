@@ -16,3 +16,6 @@ _vim_mru_files
 ieVim.lnk
 *.swp
 bundle/
+.tmp/
+.undodir/
+.vim_mru_files
