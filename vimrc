@@ -62,7 +62,10 @@ Bundle 'hotoo/calendar-vim'
 Bundle 'hotoo/snipmate.vim'
 Bundle 'hotoo/vimwiki'
 Bundle 'tpope/vim-markdown'
+"Bundle 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 
+Bundle 'itspriddle/vim-marked'
+let g:marked_app = "Marked"
 
 
 if has("win32") || has("win32unix")
