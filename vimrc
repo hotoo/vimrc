@@ -358,7 +358,9 @@ set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-
+" 选中一段文字并全文搜索这段文字
+vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 inoremap ( <c-r>=OpenPair('(')<CR>
 inoremap ) <c-r>=ClosePair(')')<CR>
@@ -705,6 +707,8 @@ if &diff
 else
   let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
   let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
+  let g:syntastic_javascript_jshint_conf = $HOME . '/.jshintrc'
+  let g:syntastic_javascript_jshint_exec='/usr/local/bin/jshint'
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
   let g:syntastic_check_on_wq=0
