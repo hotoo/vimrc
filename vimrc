@@ -63,6 +63,7 @@ Bundle 'hotoo/snipmate.vim'
 Bundle 'hotoo/vimwiki'
 Bundle 'tpope/vim-markdown'
 "Bundle 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
+Bundle 'mxw/vim-jsx'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
@@ -357,6 +358,9 @@ set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B
 "nmap <s-tab> v<
 vmap <tab> >gv
 vmap <s-tab> <gv
+
+nnoremap <Leader>d :!fanyi <cword><CR>
+vnoremap <Leader>d y:!fanyi <c-r>"<CR>
 
 " 选中一段文字并全文搜索这段文字
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
@@ -778,6 +782,42 @@ function! RemoveTrailingWhitespace()
     endif
 endfunction
 autocmd BufWritePre * call RemoveTrailingWhitespace()
+
+function! PanGuSpace()
+    if &ft != "diff"
+        let b:curcol = col(".")
+        let b:curline = line(".")
+        silent! %s/\s\+/ /
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)\.\s*/\1。/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\),\s*/\1，/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\);\s*/\1；/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)!\s*/\1！/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\):\s*/\1：/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)?\s*/\1？/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/(\([\u4e00-\u9fa5\u3040-\u30FF]\)/（\1/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\))/\1）/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\[\([\u4e00-\u9fa5\u3040-\u30FF]\)/『\1/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)\]/\1』/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/<\([\u4e00-\u9fa5\u3040-\u30FF]\)/《\1/g " 汉字后的标点符号，转成全角符号。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)>/\1》/g " 汉字后的标点符号，转成全角符号。
+        " TODO: 半角单双引号无法有效判断起始和结束，以正确替换成全角单双引号。
+        silent! %s/\([。，；？！：；《》]\)\{2,\}/\1/g " 重复的标点符号。
+        silent! %s/０/0/g " 半角数字。
+        silent! %s/１/1/g " 半角数字。
+        silent! %s/２/2/g " 半角数字。
+        silent! %s/３/3/g " 半角数字。
+        silent! %s/４/4/g " 半角数字。
+        silent! %s/５/5/g " 半角数字。
+        silent! %s/６/6/g " 半角数字。
+        silent! %s/７/7/g " 半角数字。
+        silent! %s/８/8/g " 半角数字。
+        silent! %s/９/9/g " 半角数字。
+        silent! %s/\([\u4e00-\u9fa5\u3040-\u30FF]\)\([a-z0-9@&=_`\[\$\%\^\*\-\+(\/\\]\)/\1 \2/g " 汉字在前。
+        silent! %s/\([a-z0-9!~&;=_`\]\,\.\:\?\$\%\^\*\-\+\)\/\\]\)\([\u4e00-\u9fa5\u3040-\u30FF]\)/\1 \2/g " 汉字在后。
+        call cursor(b:curline, b:curcol)
+    endif
+endfunction
+autocmd BufWritePre *.markdown,*.md,*.mdown,*.text,*.txt,*.tex,*.wiki,*.cnx call PanGuSpace()
 
 highlight TabSpace ctermbg=green guibg=green
 syntax match TabSpace /\t/
