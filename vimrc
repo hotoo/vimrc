@@ -796,5 +796,6 @@ syntax match WhitespaceEOL /\s\+$/
 " velocity default encoding setting.
 au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
 
+autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpace()
 
 " vim:fdm=marker
