@@ -360,6 +360,7 @@ set statusline=%t\ %1*%m%*\ %1*%r%*\ %2*%h%*%w%=%l%3*/%L(%p%%)%*,%c%V]\ [%b:0x%B
 vmap <tab> >gv
 vmap <s-tab> <gv
 
+" [fanyi](https://github.com/afc163/fanyi)
 nnoremap <Leader>d :!fanyi <cword><CR>
 vnoremap <Leader>d y:!fanyi <c-r>"<CR>
 
@@ -796,6 +797,6 @@ syntax match WhitespaceEOL /\s\+$/
 " velocity default encoding setting.
 au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
 
-autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpace()
+autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 
 " vim:fdm=marker
