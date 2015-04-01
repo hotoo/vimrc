@@ -61,10 +61,12 @@ Bundle 'hotoo/NERD_tree-Project'
 Bundle 'hotoo/calendar-vim'
 Bundle 'hotoo/snipmate.vim'
 Bundle 'hotoo/vimwiki'
+Bundle 'vimcn/vimwiki.vim.cnx'
 Bundle 'tpope/vim-markdown'
 "Bundle 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Bundle 'mxw/vim-jsx'
 Bundle 'hotoo/pangu.vim'
+Bundle 'vimcn/vimcdoc'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
