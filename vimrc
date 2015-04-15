@@ -196,6 +196,17 @@ set shiftwidth=2    " tab length
 
 "autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2 | setl shiftwidth=2
 
+" http://usevim.com/2013/01/04/vim101-jumping/
+function! InitJavaScript()
+  setl suffixesadd+=.js
+  "setl path+=node_modules
+  let node_modules='./'
+  let project_root=findfile('package.json', expand('%:p:h') . ';')
+  exec "setl path+=". fnamemodify(project_root, ':p:h') . "/node_modules"
+endfunction
+
+autocmd FileType javascript call InitJavaScript()
+
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
 set smartindent
