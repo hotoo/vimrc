@@ -59,7 +59,10 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'hotoo/NERD_tree-Project'
 Bundle 'hotoo/calendar-vim'
-Bundle 'hotoo/snipmate.vim'
+Bundle 'msanders/snipmate.vim'
+Bundle 'hotoo/snippets'
+Bundle 'vimcn/snipMate.vim.cnx'
+let g:snippets_dir = '~/.vim/bundle/snippets'
 Bundle 'hotoo/vimwiki'
 Bundle 'vimcn/vimwiki.vim.cnx'
 Bundle 'tpope/vim-markdown'
@@ -711,7 +714,7 @@ let g:calendar_mark = 'left-fit'            " let plus(+) near the date, like +8
 " For NERD_tree Project
 " @see http://www.vim.org/scripts/script.php?script_id=2801
 let g:NERDTreeWinPos="left"
-let g:NERDTreeWinSize=20
+let g:NERDTreeWinSize=30
 imap <F3> <Esc>:ToggleNERDTree<cr>
 nmap <F3> :ToggleNERDTree<cr>
 
