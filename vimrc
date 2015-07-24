@@ -686,13 +686,14 @@ let g:acp_behaviorHtmlOmniLength = -1
 let g:AutoComplPop_MappingDriven = 1        " Don't popup when move cursor.
 let g:AutoComplPop_IgnoreCaseOption = 1
 " @see http://d.hatena.ne.jp/cooldaemon/20071114/1195029893
-autocmd FileType * let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i'
+autocmd FileType * let g:acp_completeOption = '.,w,b,u,t,i'
+let g:acp_behaviorSnipmateLength = 1
 if g:OS#win
-    "autocmd FileType perl let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
-    "autocmd FileType ruby let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
-    autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
+    "autocmd FileType perl let g:acp_completeOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
+    "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
+    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
-    autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
+    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/bundle/dict/javascript.dict'
 endif
 
 
