@@ -693,7 +693,7 @@ if g:OS#win
     "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
     autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
-    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/bundle/dict/javascript.dict'
+    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/dict/javascript.dict'
 endif
 
 
