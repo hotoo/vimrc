@@ -766,3 +766,13 @@ exports
 module
 require
 yield
+
+console
+debug
+error
+info
+warn
+assert
+time
+timeEnd
+table
