@@ -70,6 +70,8 @@ Bundle 'tpope/vim-markdown'
 Bundle 'mxw/vim-jsx'
 Bundle 'hotoo/pangu.vim'
 Bundle 'vimcn/vimcdoc'
+Bundle 'ryanoasis/vim-devicons'
+Bundle 'Xuyuanp/nerdtree-git-plugin'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
@@ -158,12 +160,16 @@ if g:OS#win
 elseif g:OS#mac
     "set guifont=Courier_New:h16
     "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
-    set guifont=Sauce\ Code\ Powerline:h14
+    "set guifont=Sauce\ Code\ Powerline:h14
+    set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h14
 
     let g:airline_powerline_fonts = 1
 endif
 
-
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
 
 
 " set max window size.
@@ -728,7 +734,8 @@ let g:Powerline_symbols = 'fancy' " require fontpatcher
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
-  let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
+  let g:syntastic_javascript_checkers = ["eslint"]
+  "let g:syntastic_javascript_checkers = ["eslint", "jshint", "gjslint", "closurecompiler", "jsl"]
   let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
   let g:syntastic_javascript_jshint_conf = $HOME . '/.jshintrc'
   let g:syntastic_javascript_jshint_exec='/usr/local/bin/jshint'
