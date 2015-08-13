@@ -732,6 +732,7 @@ nmap <F3> :ToggleNERDTree<cr>
 " Powerline.vim
 let g:Powerline_symbols = 'fancy' " require fontpatcher
 
+set diffopt=filler,vertical,context:3
 
 " Syntastic
 if &diff
