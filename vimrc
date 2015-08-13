@@ -72,6 +72,7 @@ Bundle 'hotoo/pangu.vim'
 Bundle 'vimcn/vimcdoc'
 Bundle 'ryanoasis/vim-devicons'
 Bundle 'Xuyuanp/nerdtree-git-plugin'
+Bundle 'kien/ctrlp.vim'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
@@ -170,6 +171,7 @@ let g:webdevicons_enable = 1
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_ctrlp = 1
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 
 
@@ -736,10 +738,6 @@ if &diff
   let g:loaded_syntastic_plugin = 1
 else
   let g:syntastic_javascript_checkers = ["eslint"]
-  "let g:syntastic_javascript_checkers = ["eslint", "jshint", "gjslint", "closurecompiler", "jsl"]
-  let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
-  let g:syntastic_javascript_jshint_conf = $HOME . '/.jshintrc'
-  let g:syntastic_javascript_jshint_exec='/usr/local/bin/jshint'
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
   let g:syntastic_check_on_wq=0
