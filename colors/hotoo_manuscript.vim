@@ -183,8 +183,8 @@ hi Error        guifg=fg      guibg=#b03030 gui=none
 "}}}
 
 " Diff "{{{
-hi diffAdd      guifg=bg      guibg=#80a080 gui=none
-hi diffDelete   guifg=fg      guibg=bg      gui=none
+hi diffAdd      guifg=bg      guibg=#dbffdb gui=none
+hi diffDelete   guifg=fg      guibg=#ffecec gui=none
 hi diffChange   guifg=bg      guibg=#a08080 gui=none
 hi diffText     guifg=bg      guibg=#a05c5c gui=none
 "}}}
