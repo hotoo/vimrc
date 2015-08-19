@@ -211,13 +211,50 @@ set shiftwidth=2    " tab length
 " http://usevim.com/2013/01/04/vim101-jumping/
 function! InitJavaScript()
   setl suffixesadd+=.js
-  "setl path+=node_modules
-  let node_modules='./'
-  let project_root=findfile('package.json', expand('%:p:h') . ';')
-  exec "setl path+=". fnamemodify(project_root, ':p:h') . "/node_modules"
+  let node_modules = finddir('node_modules', expand('%:p:h') . ';')
+  exec "setl path+=". node_modules
+  "let project_root=findfile('package.json', expand('%:p:h') . ';')
+  "exec "setl path+=". fnamemodify(project_root, ':p:h') . "/node_modules"
 endfunction
 
 autocmd FileType javascript call InitJavaScript()
+
+function! CommonJSGFOpen(filepath)
+  " The directory name (e.g. FILE_NAME) is passed as the parameter
+  let filename = a:filepath
+  if isdirectory(filename)
+
+    if filereadable(filename . "/package.json")
+
+      " node_modules.
+      let pkg = readfile(filename . '/package.json')
+      let main = matchstr(pkg, '"main" *: *"\([^"]\+\)"')
+      let main = substitute(main, '.*"main" *: *"', '', '')
+      let main = substitute(main, '".*', '', '')
+      if main == ""
+        let main = "index.js"
+      endif
+      let filename = filename . "/" . main
+      if !filereadable(filename)
+        let filename = filename . '.js'
+      endif
+      if !filereadable(filename)
+        echoerr "Can't open file: " . filename
+        return
+      endif
+
+    else
+
+      " relative file path.
+      let filename = filename . '/index.js'
+
+    endif
+  endif
+
+  exe 'e' filename
+endfunction
+
+autocmd FileType javascript nmap gf :call CommonJSGFOpen("<C-R><C-P>")<CR>
 
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
@@ -739,6 +776,8 @@ if &diff
   let g:loaded_syntastic_plugin = 1
 else
   let g:syntastic_javascript_checkers = ["eslint"]
+  let g:syntastic_css_checkers = ["csslint"]
+  let g:syntastic_less_checkers = ["csslint"]
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
   let g:syntastic_check_on_wq=0
