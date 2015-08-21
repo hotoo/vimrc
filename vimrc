@@ -73,6 +73,7 @@ Bundle 'vimcn/vimcdoc'
 Bundle 'ryanoasis/vim-devicons'
 Bundle 'Xuyuanp/nerdtree-git-plugin'
 Bundle 'kien/ctrlp.vim'
+Bundle 'elzr/vim-json'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
@@ -775,8 +776,9 @@ set diffopt=filler,vertical,context:3
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
-  let g:syntastic_javascript_checkers = ["eslint"]
-  let g:syntastic_css_checkers = ["csslint"]
+  let g:syntastic_javascript_checkers = ["eslint"] " npm install eslint -g
+  let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
+  let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
   let g:syntastic_less_checkers = ["csslint"]
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
