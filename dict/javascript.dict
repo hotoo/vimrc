@@ -513,6 +513,8 @@ queryCommandEnabled
 queryCommandIndeterm
 queryCommandState
 queryCommandValue
+querySelector
+querySelectorAll
 random
 rangeCount
 reduce
