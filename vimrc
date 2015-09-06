@@ -281,7 +281,7 @@ function! CommonJSGFOpen(filepath)
   exe 'e' filename
 endfunction
 
-autocmd FileType javascript,json nmap gf :call CommonJSGFOpen("<C-R><C-P>")<CR>
+autocmd FileType javascript,json nmap <buffer> gf :call CommonJSGFOpen("<C-R><C-P>")<CR>
 
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
