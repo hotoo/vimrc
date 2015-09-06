@@ -42,72 +42,93 @@ Bundle 'gmarik/vundle'
 Bundle 'bling/vim-airline'
 "Bundle 'mhinz/vim-signify'
 Bundle 'tpope/vim-fugitive'
-Bundle 'AutoComplPop'
-"Bundle 'Valloric/YouCompleteMe'
-Bundle 'velocity.vim'
-Bundle 'ZenCoding.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'Xuyuanp/nerdtree-git-plugin'
+Bundle 'scrooloose/syntastic'
+Bundle 'hotoo/calendar-vim'
+Bundle 'hotoo/pangu.vim'
+Bundle 'ryanoasis/vim-devicons'
+Bundle 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+" DOCUMENT ================================================================{{{
+Bundle 'vimcn/vimcdoc'
+" }}}
+
+" PROJECT MANAGER ========================================================={{{
 Bundle 'TaskList.vim'
 Bundle 'taglist.vim'
 Bundle 'tagbar'
 "Bundle 'majutsushi/tagbar'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'groenewege/vim-less'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'mru.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
 Bundle 'hotoo/NERD_tree-Project'
-Bundle 'hotoo/calendar-vim'
+Bundle 'mru.vim'
+" }}}
+
+" == COMPLETION ==========================================================={{{
 Bundle 'msanders/snipmate.vim'
-Bundle 'hotoo/snippets'
 Bundle 'vimcn/snipMate.vim.cnx'
+Bundle 'hotoo/snippets'
 let g:snippets_dir = '~/.vim/bundle/snippets'
+"Bundle 'AutoComplPop'
+Bundle 'ZenCoding.vim'
+Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Shougo/neocomplete.vim'
+"let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_smart_case = 1
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" }}}
+
+" SYNTAX ================================================================={{{
 Bundle 'hotoo/vimwiki'
 Bundle 'vimcn/vimwiki.vim.cnx'
 Bundle 'tpope/vim-markdown'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'groenewege/vim-less'
+Bundle 'kchmck/vim-coffee-script'
 "Bundle 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Bundle 'mxw/vim-jsx'
-Bundle 'hotoo/pangu.vim'
-Bundle 'vimcn/vimcdoc'
-Bundle 'ryanoasis/vim-devicons'
-Bundle 'Xuyuanp/nerdtree-git-plugin'
-Bundle 'kien/ctrlp.vim'
 Bundle 'elzr/vim-json'
+Bundle 'velocity.vim'
 
 Bundle 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
+" }}}
 
 
 if has("win32") || has("win32unix")
-    let g:OS#name = "win"
-    let g:OS#win = 1
-    let g:OS#mac = 0
-    let g:OS#unix = 0
+  let g:OS#name = "win"
+  let g:OS#win = 1
+  let g:OS#mac = 0
+  let g:OS#unix = 0
 elseif has("mac")
-    let g:OS#name = "mac"
-    let g:OS#mac = 1
-    let g:OS#win = 0
-    let g:OS#unix = 0
+  let g:OS#name = "mac"
+  let g:OS#mac = 1
+  let g:OS#win = 0
+  let g:OS#unix = 0
 elseif has("unix")
-    let g:OS#name = "unix"
-    let g:OS#unix = 1
-    let g:OS#win = 0
-    let g:OS#mac = 0
+  let g:OS#name = "unix"
+  let g:OS#unix = 1
+  let g:OS#win = 0
+  let g:OS#mac = 0
 endif
 
 if has("gui_running")
-    let g:OS#gui = 1
+  let g:OS#gui = 1
 else
-    let g:OS#gui = 0
+  let g:OS#gui = 0
 endif
 
 if g:OS#win
-    let VIM_HOME = $VIM . "\\"
-    let TMP_POSTFIX = "_"
+  let VIM_HOME = $VIM . "\\"
+  let TMP_POSTFIX = "_"
 else
-    let VIM_HOME = "~/.vim/"
-    let TMP_POSTFIX = "."
+  let VIM_HOME = "~/.vim/"
+  let TMP_POSTFIX = "."
 endif
 
 set nocompatible
@@ -141,14 +162,16 @@ set fileformats=unix,dos,mac
 
 " theme, skin, color
 if g:OS#gui
-    colo hotoo_manuscript
+  colo hotoo_manuscript
+else
+  colorscheme default
 endif
 
 
 " @see :help mbyte-IME
 if has('multi_byte_ime')
-    highlight Cursor guibg=#F0E68C guifg=#708090
-    highlight CursorIM guibg=Purple guifg=NONE
+  highlight Cursor guibg=#F0E68C guifg=#708090
+  highlight CursorIM guibg=Purple guifg=NONE
 endif
 
 
@@ -158,14 +181,14 @@ endif
 " @see http://www.gracecode.com/archives/1545/
 " @see http://blog.xianyun.org/2009/09/14/vim-fonts.html
 if g:OS#win
-    set guifont=Courier_New:h12:cANSI
+  set guifont=Courier_New:h12:cANSI
 elseif g:OS#mac
-    "set guifont=Courier_New:h16
-    "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
-    "set guifont=Sauce\ Code\ Powerline:h14
-    set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h14
+  "set guifont=Courier_New:h16
+  "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+  "set guifont=Sauce\ Code\ Powerline:h14
+  set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h14
 
-    let g:airline_powerline_fonts = 1
+  let g:airline_powerline_fonts = 1
 endif
 
 let g:webdevicons_enable = 1
@@ -178,19 +201,19 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 
 " set max window size.
 if g:OS#win && g:OS#gui
-    au GUIEnter * simalt ~x
-elseif g:OS#mac
-    set transparency=5
-    set columns=999
-    set lines=99
+  au GUIEnter * simalt ~x
+elseif g:OS#mac && g:OS#gui
+  set transparency=5
+  set columns=999
+  set lines=99
 elseif g:OS#unix
-    " for Gnome.
-    " $ sudo apt-get install wmctrl
-    " http://fluxbox.sourceforge.net/docbook/zh_cn/html/ch03s05.html
-    autocmd GUIEnter * silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+  " for Gnome.
+  " $ sudo apt-get install wmctrl
+  " http://fluxbox.sourceforge.net/docbook/zh_cn/html/ch03s05.html
+  autocmd GUIEnter * silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
 else
-    set columns=999
-    set lines=99
+  set columns=999
+  set lines=99
 endif
 
 
@@ -212,13 +235,14 @@ set shiftwidth=2    " tab length
 " http://usevim.com/2013/01/04/vim101-jumping/
 function! InitJavaScript()
   setl suffixesadd+=.js
+  setl isfname+=@-@
   let node_modules = finddir('node_modules', expand('%:p:h') . ';')
   exec "setl path+=". node_modules
   "let project_root=findfile('package.json', expand('%:p:h') . ';')
   "exec "setl path+=". fnamemodify(project_root, ':p:h') . "/node_modules"
 endfunction
 
-autocmd FileType javascript call InitJavaScript()
+autocmd FileType javascript,json call InitJavaScript()
 
 function! CommonJSGFOpen(filepath)
   let filename = a:filepath
@@ -257,7 +281,7 @@ function! CommonJSGFOpen(filepath)
   exe 'e' filename
 endfunction
 
-autocmd FileType javascript nmap gf :call CommonJSGFOpen("<C-R><C-P>")<CR>
+autocmd FileType javascript,json nmap gf :call CommonJSGFOpen("<C-R><C-P>")<CR>
 
 set linebreak       " break full word.
 set autoindent      " new line indent same this line.
@@ -298,65 +322,65 @@ set colorcolumn=81
 " @see http://vim.wikia.com/wiki/Show_tab_number_in_your_tab_line
 " :h tabline
 if g:OS#gui
-    " TODO: for MacVim.
-    set guitablabel=%N.%t
+  " TODO: for MacVim.
+  set guitablabel=%N.%t
 endif
 
 
 " swrap file, auto backup.
 set nobackup
 if g:OS#win
-    set directory=$VIM\_tmp
+  set directory=$VIM\_tmp
 else
-    set directory=~/.vim/.tmp
+  set directory=~/.vim/.tmp
 endif
 
 
 " fullscreen
 let s:fullscreen = 0
 function! FullScreenToggle()
-    if g:OS#win
-        if has("libcall")
-            call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)
-        endif
-    elseif g:OS#mac
-        " 原生支持。
-        if &fullscreen
-            set nofullscreen
-        else
-            set fullscreen
-        endif
-    elseif g:OS#unix
-        " 系统设置->键盘快捷键->窗口管理->切换全屏模式(F11)
-        if executable("wmctrl")
-            if s:fullscreen
-                " FIXME.
-                silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-                let s:fullscreen = 0
-            else
-                silent !wmctrl -r :ACTIVE: -b add,fullscreen
-                let s:fullscreen = 1
-            endif
-        endif
+  if g:OS#win
+    if has("libcall")
+      call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)
     endif
+  elseif g:OS#mac
+    " 原生支持。
+    if &fullscreen
+      set nofullscreen
+    else
+      set fullscreen
+    endif
+  elseif g:OS#unix
+    " 系统设置->键盘快捷键->窗口管理->切换全屏模式(F11)
+    if executable("wmctrl")
+      if s:fullscreen
+        " FIXME.
+        silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+        let s:fullscreen = 0
+      else
+        silent !wmctrl -r :ACTIVE: -b add,fullscreen
+        let s:fullscreen = 1
+      endif
+    endif
+  endif
 endfunction
 command -nargs=0 FullScreen :call FullScreenToggle()
 
 
 " 快捷打开特定文件。
 if g:OS#win
-    au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
-    " @see http://practice.chatserve.com/hosts.html
-    command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
+  au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
+  " @see http://practice.chatserve.com/hosts.html
+  command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
 
-    command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
-    command -nargs=0 Sysrc silent tabnew $VIM/vimfiles/sysrc
+  command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
+  command -nargs=0 Sysrc silent tabnew $VIM/vimfiles/sysrc
 else
-    " readonly.
-    command -nargs=0 Hosts :!sudo gvim /etc/hosts
+  " readonly.
+  command -nargs=0 Hosts :!sudo gvim /etc/hosts
 
-    command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
-    command -nargs=0 Sysrc :silent! tabnew ~/.vim/sysrc
+  command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
+  command -nargs=0 Sysrc :silent! tabnew ~/.vim/sysrc
 endif
 
 
@@ -370,16 +394,16 @@ set history=500
 
 
 if has("persistent_undo")
-    set undofile
-    set undolevels=1000
+  set undofile
+  set undolevels=1000
 
-    if g:OS#win
-        set undodir=$VIM\_undodir
-        au BufWritePre _undodir/* setlocal noundofile
-    else
-        set undodir=~/.vim/.undodir
-        au BufWritePre ~/.vim/.undodir/* setlocal noundofile
-    endif
+  if g:OS#win
+    set undodir=$VIM\_undodir
+    au BufWritePre _undodir/* setlocal noundofile
+  else
+    set undodir=~/.vim/.undodir
+    au BufWritePre ~/.vim/.undodir/* setlocal noundofile
+  endif
 endif
 
 
@@ -387,22 +411,22 @@ endif
 " User Defined Status Line.
 " @see http://www.vim.org/scripts/script.php?script_id=8 for VimBuddy.
 function! GetFileTime()
-    " FIXME: get file name.
-    let file = expand("%")
-    if "" == file
-        return ""
-    endif
-    let lastmodify = getftime(file)
-    let str = strftime('%Y/%m/%d %H:%M:%S', lastmodify)
-    let Y = strftime('%Y', lastmodify)
-    let m = strftime('%m', lastmodify)
-    let d = strftime('%d', lastmodify)
-    let H = strftime('%H', lastmodify)
-    let M = strftime('%M', lastmodify)
-    let S = strftime('%S', lastmodify)
+  " FIXME: get file name.
+  let file = expand("%")
+  if "" == file
+    return ""
+  endif
+  let lastmodify = getftime(file)
+  let str = strftime('%Y/%m/%d %H:%M:%S', lastmodify)
+  let Y = strftime('%Y', lastmodify)
+  let m = strftime('%m', lastmodify)
+  let d = strftime('%d', lastmodify)
+  let H = strftime('%H', lastmodify)
+  let M = strftime('%M', lastmodify)
+  let S = strftime('%S', lastmodify)
 
-    echomsg str
-    return str
+  echomsg str
+  return str
 endfunction
 command -nargs=0 LastModify :call GetFileTime()
 
@@ -443,83 +467,83 @@ inoremap ] <c-r>=ClosePair(']')<CR>
 "inoremap < <c-r>=OpenPair('<')<CR>
 "inoremap > <c-r>=ClosePair('>')<CR>
 function! OpenPair(char)
-    let PAIRs = {
-                \ '{' : '}',
-                \ '[' : ']',
-                \ '(' : ')',
-                \ '<' : '>'
-                \}
-    if line('$')>2000
-        let line = getline('.')
+  let PAIRs = {
+        \ '{' : '}',
+        \ '[' : ']',
+        \ '(' : ')',
+        \ '<' : '>'
+        \}
+  if line('$')>2000
+    let line = getline('.')
 
-        let txt = strpart(line, col('.')-1)
-    else
-        let lines = getline(1,line('$'))
-        let line=""
-        for str in lines
-            let line = line . str . "\n"
-        endfor
+    let txt = strpart(line, col('.')-1)
+  else
+    let lines = getline(1,line('$'))
+    let line=""
+    for str in lines
+      let line = line . str . "\n"
+    endfor
 
-        let blines = getline(line('.')-1, line("$"))
-        let txt = strpart(getline("."), col('.')-1)
-        for str in blines
-            let txt = txt . str . "\n"
-        endfor
-    endif
-    let oL = len(split(line, a:char, 1))-1
-    let cL = len(split(line, PAIRs[a:char], 1))-1
+    let blines = getline(line('.')-1, line("$"))
+    let txt = strpart(getline("."), col('.')-1)
+    for str in blines
+      let txt = txt . str . "\n"
+    endfor
+  endif
+  let oL = len(split(line, a:char, 1))-1
+  let cL = len(split(line, PAIRs[a:char], 1))-1
 
-    let ol = len(split(txt, a:char, 1))-1
-    let cl = len(split(txt, PAIRs[a:char], 1))-1
+  let ol = len(split(txt, a:char, 1))-1
+  let cl = len(split(txt, PAIRs[a:char], 1))-1
 
-    if oL>=cL || (oL<cL && ol>=cl)
-        return a:char . PAIRs[a:char] . "\<Left>"
-    else
-        return a:char
-    endif
+  if oL>=cL || (oL<cL && ol>=cl)
+    return a:char . PAIRs[a:char] . "\<Left>"
+  else
+    return a:char
+  endif
 endfunction
 function! ClosePair(char)
-    if getline('.')[col('.')-1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
+  if getline('.')[col('.')-1] == a:char
+    return "\<Right>"
+  else
+    return a:char
+  endif
 endf
 
 inoremap ' <c-r>=CompleteQuote("'")<CR>
 inoremap " <c-r>=CompleteQuote('"')<CR>
 function! CompleteQuote(quote)
-    let ql = len(split(getline('.'), a:quote, 1))-1
-    let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
-    let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
-    let isBefreQuote = getline('.')[col('.') - 1] == a:quote
+  let ql = len(split(getline('.'), a:quote, 1))-1
+  let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
+  let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
+  let isBefreQuote = getline('.')[col('.') - 1] == a:quote
 
-    if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
-        " for vim comment.
-        return a:quote
-    elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
-        " for Name's Blog.
-        return a:quote
-    elseif (ql%2)==1
-        " a:quote length is odd.
-        return a:quote
-    elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
-        return a:quote . a:quote . "\<Left>"
-    elseif isBefreQuote
-        return "\<Right>"
-    else
-        return a:quote . a:quote . "\<Left>"
-    endif
+  if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
+    " for vim comment.
+    return a:quote
+  elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
+    " for Name's Blog.
+    return a:quote
+  elseif (ql%2)==1
+    " a:quote length is odd.
+    return a:quote
+  elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
+    return a:quote . a:quote . "\<Left>"
+  elseif isBefreQuote
+    return "\<Right>"
+  else
+    return a:quote . a:quote . "\<Left>"
+  endif
 endfunction
 
 
 " [count]<Space> key in normal model.
 nmap <space> :<C-U>call NormalSpace()<cr>
 function! NormalSpace()
-    let col=col(".")-1
-    let text=getline(".")
-    call setline(line("."), strpart(text,0,col).repeat(" ", v:count1).strpart(text,col))
-    exec "normal ".v:count1."l"
+  let col=col(".")-1
+  let text=getline(".")
+  call setline(line("."), strpart(text,0,col).repeat(" ", v:count1).strpart(text,col))
+  exec "normal ".v:count1."l"
 endfunction
 
 
@@ -527,19 +551,19 @@ endfunction
 " Note: if system install "Lingoes Translator",
 "   you will need change/disabled hot key.
 if g:OS#mac
-    noremap! <D-j> <Down>
-    noremap! <D-k> <Up>
-    "noremap! <D-h> <left>
-    "noremap! <D-l> <Right>
-    noremap! <A-j> <Down>
-    noremap! <A-k> <Up>
-    noremap! <A-h> <left>
-    noremap! <A-l> <Right>
+  noremap! <D-j> <Down>
+  noremap! <D-k> <Up>
+  "noremap! <D-h> <left>
+  "noremap! <D-l> <Right>
+  noremap! <A-j> <Down>
+  noremap! <A-k> <Up>
+  noremap! <A-h> <left>
+  noremap! <A-l> <Right>
 else
-    noremap! <M-j> <Down>
-    noremap! <M-k> <Up>
-    noremap! <M-h> <left>
-    noremap! <M-l> <Right>
+  noremap! <M-j> <Down>
+  noremap! <M-k> <Up>
+  noremap! <M-h> <left>
+  noremap! <M-l> <Right>
 endif
 
 map <C-j> <C-W>j
@@ -559,39 +583,39 @@ map <C-S-kMinus> <C-w>_
 " Mac:     open .
 " @see http://www.zhuoqun.net/html/y2010/1516.html
 function! FileExplorer(path)
-    if a:path == ""
-        if has("win32")
-            let p = expand("%:p")
-        elseif has("mac")
-            let p = expand("%:p:h")
-        else
-            echomsg "Not support."
-            return
-        endif
-    else
-        let p = a:path
-    endif
-    if g:OS#win && exists("+shellslash") && &shellslash
-        let p = substitute(p, "/", "\\", "g")
-    endif
-
-    if executable("chcp")
-        let code_page = 'cp' . matchstr(system("chcp"), "\\d\\+")
-    else
-        " If chcp doesn't work, set its value manually here.
-        let code_page = 'cp936'
-    endif
-    if g:OS#win && !has('win32unix') && (&enc!=code_page)
-        let p = iconv(p, &enc, code_page)
-    endif
-
-    if g:OS#win
-        exec ":!start explorer /select, " . p
-        " Open Explorer Tree.
-        "exec ":!start explorer /e,/select, " . p
+  if a:path == ""
+    if has("win32")
+      let p = expand("%:p")
     elseif has("mac")
-        exec ':!open "' . p . '"'
+      let p = expand("%:p:h")
+    else
+      echomsg "Not support."
+      return
     endif
+  else
+    let p = a:path
+  endif
+  if g:OS#win && exists("+shellslash") && &shellslash
+    let p = substitute(p, "/", "\\", "g")
+  endif
+
+  if executable("chcp")
+    let code_page = 'cp' . matchstr(system("chcp"), "\\d\\+")
+  else
+    " If chcp doesn't work, set its value manually here.
+    let code_page = 'cp936'
+  endif
+  if g:OS#win && !has('win32unix') && (&enc!=code_page)
+    let p = iconv(p, &enc, code_page)
+  endif
+
+  if g:OS#win
+    exec ":!start explorer /select, " . p
+    " Open Explorer Tree.
+    "exec ":!start explorer /e,/select, " . p
+  elseif has("mac")
+    exec ':!open "' . p . '"'
+  endif
 endfunction
 
 " Open Windows Explorer and Fouse current file.
@@ -599,7 +623,7 @@ endfunction
 "                                      %:p:h     " Just Fold Name.
 command -nargs=0 FileExplorer :silent call FileExplorer("")
 if g:OS#mac
-    command -nargs=0 Finder :silent call FileExplorer("")
+  command -nargs=0 Finder :silent call FileExplorer("")
 endif
 
 
@@ -611,15 +635,15 @@ let g:use_bash="zsh"
 " for MacOS
 " /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
 function! OpenBash(...)
-    let bash=':!open /bin/bash'
+  let bash=':!open /bin/bash'
 
-    if g:OS#win
-        let bash=':!start cmd'
-    elseif "zsh" == g:use_bash
-        let bash=':!open /bin/zsh'
-    endif
+  if g:OS#win
+    let bash=':!start cmd'
+  elseif "zsh" == g:use_bash
+    let bash=':!open /bin/zsh'
+  endif
 
-    exec bash
+  exec bash
 endfunction
 command -nargs=? Cmdhere silent call OpenBash(<f-args>)
 command -nargs=? Bashere silent call OpenBash(<f-args>)
@@ -643,62 +667,62 @@ nmap <C-tab> :tabnext<cr>
 imap <C-S-tab> :tabprevious<cr>
 nmap <C-S-tab> :tabprevious<cr>
 if g:OS#mac
-    imap <D-1> <Esc>:tabfirst<cr>
-    nmap <D-1> :tabfirst<cr>
-    imap <D-2> <Esc>2gt
-    nmap <D-2> 2gt
-    imap <D-3> <Esc>3gt
-    nmap <D-3> 3gt
-    imap <D-4> <Esc>4gt
-    nmap <D-4> 4gt
-    imap <D-5> <Esc>5gt
-    nmap <D-5> 5gt
-    imap <D-6> <Esc>6gt
-    nmap <D-6> 6gt
-    imap <D-7> <Esc>7gt
-    nmap <D-7> 7gt
-    imap <D-8> <Esc>8gt
-    nmap <D-8> 8gt
-    imap <D-9> <Esc>9gt
-    nmap <D-9> 9gt
-    imap <D-0> <Esc>:tablast<cr>
-    nmap <D-0> :tablast<cr>
+  imap <D-1> <Esc>:tabfirst<cr>
+  nmap <D-1> :tabfirst<cr>
+  imap <D-2> <Esc>2gt
+  nmap <D-2> 2gt
+  imap <D-3> <Esc>3gt
+  nmap <D-3> 3gt
+  imap <D-4> <Esc>4gt
+  nmap <D-4> 4gt
+  imap <D-5> <Esc>5gt
+  nmap <D-5> 5gt
+  imap <D-6> <Esc>6gt
+  nmap <D-6> 6gt
+  imap <D-7> <Esc>7gt
+  nmap <D-7> 7gt
+  imap <D-8> <Esc>8gt
+  nmap <D-8> 8gt
+  imap <D-9> <Esc>9gt
+  nmap <D-9> 9gt
+  imap <D-0> <Esc>:tablast<cr>
+  nmap <D-0> :tablast<cr>
 else
-    imap <M-1> <Esc>:tabfirst<cr>
-    nmap <M-1> :tabfirst<cr>
-    imap <M-2> <Esc>2gt
-    nmap <M-2> 2gt
-    imap <M-3> <Esc>3gt
-    nmap <M-3> 3gt
-    imap <M-4> <Esc>4gt
-    nmap <M-4> 4gt
-    imap <M-5> <Esc>5gt
-    nmap <M-5> 5gt
-    imap <M-6> <Esc>6gt
-    nmap <M-6> 6gt
-    imap <M-7> <Esc>7gt
-    nmap <M-7> 7gt
-    imap <M-8> <Esc>8gt
-    nmap <M-8> 8gt
-    imap <M-9> <Esc>9gt
-    nmap <M-9> 9gt
-    imap <M-0> <Esc>:tablast<cr>
-    nmap <M-0> :tablast<cr>
+  imap <M-1> <Esc>:tabfirst<cr>
+  nmap <M-1> :tabfirst<cr>
+  imap <M-2> <Esc>2gt
+  nmap <M-2> 2gt
+  imap <M-3> <Esc>3gt
+  nmap <M-3> 3gt
+  imap <M-4> <Esc>4gt
+  nmap <M-4> 4gt
+  imap <M-5> <Esc>5gt
+  nmap <M-5> 5gt
+  imap <M-6> <Esc>6gt
+  nmap <M-6> 6gt
+  imap <M-7> <Esc>7gt
+  nmap <M-7> 7gt
+  imap <M-8> <Esc>8gt
+  nmap <M-8> 8gt
+  imap <M-9> <Esc>9gt
+  nmap <M-9> 9gt
+  imap <M-0> <Esc>:tablast<cr>
+  nmap <M-0> :tablast<cr>
 endif
 
 
 " Toggle Menu and Toolbar
 " @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
 if g:OS#gui
-    set guioptions-=m
-    set guioptions-=T
-    map <silent> <F2> :if &guioptions =~# 'T' <Bar>
-            \set guioptions-=T <Bar>
-            \set guioptions-=m <bar>
-        \else <Bar>
-            \set guioptions+=T <Bar>
-            \set guioptions+=m <Bar>
-        \endif<CR>
+  set guioptions-=m
+  set guioptions-=T
+  map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=m <bar>
+      \else <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=m <Bar>
+      \endif<CR>
 endif
 
 
@@ -707,7 +731,7 @@ endif
 " MRU.vim
 " try for Terminal.
 try
-    let MRU_File=~/.vim/.vim_mru_files
+  let MRU_File=~/.vim/.vim_mru_files
 catch /.*/
 endtry
 let MRU_Max_Entries = 1000
@@ -738,11 +762,11 @@ let g:AutoComplPop_IgnoreCaseOption = 1
 autocmd FileType * let g:acp_completeOption = '.,w,b,u,t,i'
 let g:acp_behaviorSnipmateLength = 1
 if g:OS#win
-    "autocmd FileType perl let g:acp_completeOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
-    "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
-    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
+  "autocmd FileType perl let g:acp_completeOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
+  "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
+  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
-    autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/dict/javascript.dict'
+  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/dict/javascript.dict'
 endif
 
 
@@ -798,12 +822,12 @@ endif
 " ctags, TagList, Tagbar.
 " @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
 if g:OS#win
-    let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
-    let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
-	let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
+  let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
+  let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
+  let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
 elseif g:OS#mac
-    let g:ctags_path='/usr/local/bin/ctags'
-    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
+  let g:ctags_path='/usr/local/bin/ctags'
+  let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
 	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 else
 endif
@@ -815,7 +839,7 @@ let g:tagbar_type_markdown = {
 		\ 'i:header',
 		\ 'k:header'
 	\ ],
-    \ 'sort': 0
+  \ 'sort': 0
 \ }
 
 let g:ctags_statusline=1
@@ -842,13 +866,13 @@ let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
 " From: Vigil
 " @see http://blog.bs2.to/post/EdwardLee/17961
 function! RemoveTrailingWhitespace()
-    if &ft != "diff"
-        let b:curcol = col(".")
-        let b:curline = line(".")
-        silent! %s/\s\+$//
-        silent! %s/\(\s*\n\)\+\%$//
-        call cursor(b:curline, b:curcol)
-    endif
+  if &ft != "diff"
+    let b:curcol = col(".")
+    let b:curline = line(".")
+    silent! %s/\s\+$//
+    silent! %s/\(\s*\n\)\+\%$//
+    call cursor(b:curline, b:curcol)
+  endif
 endfunction
 autocmd BufWritePre * call RemoveTrailingWhitespace()
 
