@@ -158,7 +158,7 @@ filetype on
 
 " 文件格式，默认 ffs=dos,unix
 set fileformat=unix
-set fileformats=unix,dos,mac
+set fileformats=unix,mac,dos
 
 
 " theme, skin, color
@@ -754,7 +754,15 @@ set diffopt=filler,vertical,context:3
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
-  let g:syntastic_javascript_checkers = ["eslint"] " npm install eslint -g
+
+  let node_modules = finddir('node_modules', expand('%:p:h') . ';')
+  autocmd FileType javascript
+    \ if executable(node_modules . '/.bin/eslint') |
+      \ let b:syntastic_checkers = [node_modules . "/.bin/eslint"] |
+    \ else |
+      \ let g:syntastic_javascript_checkers = ["eslint"] | " npm install eslint -g
+    \ endif
+
   let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
   let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
   let g:syntastic_less_checkers = ["csslint"]
