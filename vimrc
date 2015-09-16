@@ -755,14 +755,19 @@ if &diff
   let g:loaded_syntastic_plugin = 1
 else
 
-  let node_modules = finddir('node_modules', expand('%:p:h') . ';')
-  autocmd FileType javascript
-    \ if executable(node_modules . '/.bin/eslint') |
-      \ let b:syntastic_checkers = [node_modules . "/.bin/eslint"] |
-    \ else |
-      \ let g:syntastic_javascript_checkers = ["eslint"] | " npm install eslint -g
-    \ endif
+  function! SetJavaScriptLint()
+    let b:node_modules = finddir('node_modules', expand('%:p:h') . ';')
+    if executable(b:node_modules . '/.bin/eslint')
+      let b:syntastic_checkers = [b:node_modules . "/.bin/eslint"]
+    elseif executable(b:node_modules . '/.bin/jshint')
+      let b:syntastic_checkers = [b:node_modules . "/.bin/jshint"]
+    elseif executable(b:node_modules . '/.bin/jslint')
+      let b:syntastic_checkers = [b:node_modules . "/.bin/jslint"]
+    endif
+  endfunction
+  autocmd FileType javascript call SetJavaScriptLint()
 
+  let g:syntastic_javascript_checkers = ["eslint"] " npm install eslint -g
   let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
   let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
   let g:syntastic_less_checkers = ["csslint"]
