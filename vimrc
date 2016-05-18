@@ -35,69 +35,73 @@ call vundle#rc()
 
 " let Vundle manage Vundle
 " required!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 
-"Bundle 'Lokaltog/vim-powerline'
-Bundle 'bling/vim-airline'
-"Bundle 'mhinz/vim-signify'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Xuyuanp/nerdtree-git-plugin'
-Bundle 'scrooloose/syntastic'
-Bundle 'hotoo/calendar-vim'
-Bundle 'hotoo/pangu.vim'
-Bundle 'ryanoasis/vim-devicons'
-Bundle 'nathanaelkane/vim-indent-guides'
+"Plugin 'Lokaltog/vim-powerline'
+Plugin 'bling/vim-airline'
+"Plugin 'mhinz/vim-signify'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1
+let g:NERDRemoveExtraSpaces = 1
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'scrooloose/syntastic'
+Plugin 'hotoo/calendar-vim'
+Plugin 'hotoo/pangu.vim'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 
 " DOCUMENT ================================================================{{{
-Bundle 'vimcn/vimcdoc'
+Plugin 'vimcn/vimcdoc'
 " }}}
 
 " PROJECT MANAGER ========================================================={{{
-Bundle 'TaskList.vim'
-Bundle 'taglist.vim'
-Bundle 'tagbar'
-"Bundle 'majutsushi/tagbar'
-Bundle 'kien/ctrlp.vim'
-Bundle 'hotoo/NERD_tree-Project'
-Bundle 'mru.vim'
+Plugin 'TaskList.vim'
+Plugin 'taglist.vim'
+Plugin 'tagbar'
+"Plugin 'majutsushi/tagbar'
+Plugin 'kien/ctrlp.vim'
+Plugin 'hotoo/NERD_tree-Project'
+Plugin 'mru.vim'
 " }}}
 
 " == COMPLETION ==========================================================={{{
-Bundle 'msanders/snipmate.vim'
-Bundle 'vimcn/snipMate.vim.cnx'
-Bundle 'hotoo/snippets'
+Plugin 'msanders/snipmate.vim'
+Plugin 'vimcn/snipMate.vim.cnx'
+Plugin 'hotoo/snippets'
 let g:snippets_dir = '~/.vim/bundle/snippets'
-"Bundle 'AutoComplPop'
-Bundle 'ZenCoding.vim'
-Bundle 'Valloric/YouCompleteMe'
-"Bundle 'Shougo/neocomplete.vim'
+"Plugin 'AutoComplPop'
+Plugin 'ZenCoding.vim'
+Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
 "let g:neocomplete#enable_smart_case = 1
 "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 " }}}
 
 " SYNTAX ================================================================={{{
-Bundle 'hotoo/vimwiki'
-Bundle 'vimcn/vimwiki.vim.cnx'
-Bundle 'tpope/vim-markdown'
-Bundle 'digitaltoad/vim-jade'
-Bundle 'groenewege/vim-less'
-Bundle 'kchmck/vim-coffee-script'
-"Bundle 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
-Bundle 'mxw/vim-jsx'
-Bundle 'elzr/vim-json'
-Bundle 'velocity.vim'
-Bundle 'hotoo/jsgf.vim'
+Plugin 'hotoo/vimwiki'
+Plugin 'vimcn/vimwiki.vim.cnx'
+Plugin 'tpope/vim-markdown'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'groenewege/vim-less'
+Plugin 'kchmck/vim-coffee-script'
+"Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
+Plugin 'mxw/vim-jsx'
+Plugin 'elzr/vim-json'
+Plugin 'velocity.vim'
+Plugin 'hotoo/jsgf.vim'
 
-Bundle 'itspriddle/vim-marked'
+Plugin 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
+
+Plugin 'vimcn/node-vimdoc'
 " }}}
 
 
@@ -257,6 +261,7 @@ set scrolloff=3
 
 set autochdir
 set colorcolumn=81,121
+set synmaxcol=999
 
 set keywordprg=:help
 
@@ -751,37 +756,34 @@ let g:Powerline_symbols = 'fancy' " require fontpatcher
 set diffopt=filler,vertical,context:3
 
 " Syntastic
-if &diff
-  let g:loaded_syntastic_plugin = 1
-else
+function! SetJavaScriptLint()
+  let b:node_modules = finddir('node_modules', expand('%:p:h') . ';')
+  if executable(b:node_modules . '/.bin/eslint')
+    let b:syntastic_checkers = [b:node_modules . '/.bin/eslint']
+  elseif executable(b:node_modules . '/.bin/jshint')
+    let b:syntastic_checkers = [b:node_modules . '/.bin/jshint']
+  elseif executable(b:node_modules . '/.bin/jslint')
+    let b:syntastic_checkers = [b:node_modules . '/.bin/jslint']
+  else
+    let b:syntastic_checkers = ['eslint'] " npm install eslint -g
+  endif
+endfunction
+"autocmd FileType javascript call SetJavaScriptLint()
 
-  function! SetJavaScriptLint()
-    let b:node_modules = finddir('node_modules', expand('%:p:h') . ';')
-    if executable(b:node_modules . '/.bin/eslint')
-      let b:syntastic_checkers = [b:node_modules . "/.bin/eslint"]
-    elseif executable(b:node_modules . '/.bin/jshint')
-      let b:syntastic_checkers = [b:node_modules . "/.bin/jshint"]
-    elseif executable(b:node_modules . '/.bin/jslint')
-      let b:syntastic_checkers = [b:node_modules . "/.bin/jslint"]
-    endif
-  endfunction
-  autocmd FileType javascript call SetJavaScriptLint()
+let g:syntastic_javascript_checkers = ['eslint'] " npm install eslint -g
+let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
+let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
+let g:syntastic_less_checkers = ["csslint"]
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_enable_signs=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
 
-  let g:syntastic_javascript_checkers = ["eslint"] " npm install eslint -g
-  let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
-  let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
-  let g:syntastic_less_checkers = ["csslint"]
-  let g:syntastic_always_populate_loc_list=1
-  let g:syntastic_check_on_open=1
-  let g:syntastic_check_on_wq=0
-  let g:syntastic_enable_signs=1
-  let g:syntastic_error_symbol='✗'
-  let g:syntastic_warning_symbol='⚠'
-
-  highlight SyntasticErrorSign guifg=red guibg=#555555
-  highlight SyntasticWarningSign guifg=yellow guibg=#555555
-  highlight SignColumn guibg=#555555
-endif
+highlight SyntasticErrorSign guifg=red guibg=#555555
+highlight SyntasticWarningSign guifg=yellow guibg=#555555
+highlight SignColumn guibg=#555555
 
 
 " ctags, TagList, Tagbar.
