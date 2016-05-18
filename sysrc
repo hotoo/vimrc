@@ -1,6 +1,11 @@
 
 let g:vimwiki_list = [
-        \ {'path': '~/Dropbox/VimPrivateWiki'},
+        \ {
+            \ 'path'        : '~/Dropbox/VimPrivateWiki',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
+        \ },
         \ {
             \ 'path'        : '~/workbench/hotoo/wiki.hotoo.me/wiki/',
             \ 'ext': '.md',
