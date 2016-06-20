@@ -470,6 +470,10 @@ endf
 inoremap ' <c-r>=CompleteQuote("'")<CR>
 inoremap " <c-r>=CompleteQuote('"')<CR>
 function! CompleteQuote(quote)
+  if strlen(visualmode(1))
+    return a:quote
+  endif
+
   let ql = len(split(getline('.'), a:quote, 1))-1
   let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
   let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
