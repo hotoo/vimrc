@@ -76,9 +76,10 @@ Plugin 'msanders/snipmate.vim'
 Plugin 'vimcn/snipMate.vim.cnx'
 Plugin 'hotoo/snippets'
 let g:snippets_dir = '~/.vim/bundle/snippets'
-"Plugin 'AutoComplPop'
+Plugin 'AutoComplPop'
 Plugin 'ZenCoding.vim'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'hotoo/template.vim'
+" Plugin 'Valloric/YouCompleteMe' " Very good but not for me.
 "Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
 "let g:neocomplete#enable_smart_case = 1
@@ -708,26 +709,25 @@ let g:vimwiki_user_htmls = "search.html,404.html"
 
 
 " autocomplpop.vim, acp.vim
-"let g:loaded_acp = 0
+" let g:loaded_acp = 0
 " Auto Complete Pop Menu
 " autocomplpop.vim
 " @see http://www.vim.org/scripts/script.php?script_id=1879
 " @see http://hi.baidu.com/timeless/blog/item/cb4478f09a1563ca7931aa5d.html
 " Note: functions and key maps invalid.
 "
-"let g:acp_behaviorSnipmateLength = 1        " AutoComplete snippets for snipMate.
+let g:acp_behaviorSnipmateLength = 1        " AutoComplete snippets for snipMate.
 let g:acp_behaviorHtmlOmniLength = -1
 let g:AutoComplPop_MappingDriven = 1        " Don't popup when move cursor.
 let g:AutoComplPop_IgnoreCaseOption = 1
 " @see http://d.hatena.ne.jp/cooldaemon/20071114/1195029893
 autocmd FileType * let g:acp_completeOption = '.,w,b,u,t,i'
-let g:acp_behaviorSnipmateLength = 1
 if g:OS#win
   "autocmd FileType perl let g:acp_completeOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
   "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
   autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
-  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/dict/javascript.dict'
+  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/javascript.dict'
 endif
 
 
