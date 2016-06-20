@@ -756,24 +756,36 @@ let g:Powerline_symbols = 'fancy' " require fontpatcher
 set diffopt=filler,vertical,context:3
 
 " Syntastic
-function! SetJavaScriptLint()
-  let b:node_modules = finddir('node_modules', expand('%:p:h') . ';')
-  if executable(b:node_modules . '/.bin/eslint')
-    let b:syntastic_checkers = [b:node_modules . '/.bin/eslint']
-  elseif executable(b:node_modules . '/.bin/jshint')
-    let b:syntastic_checkers = [b:node_modules . '/.bin/jshint']
-  elseif executable(b:node_modules . '/.bin/jslint')
-    let b:syntastic_checkers = [b:node_modules . '/.bin/jslint']
-  else
-    let b:syntastic_checkers = ['eslint'] " npm install eslint -g
-  endif
-endfunction
-"autocmd FileType javascript call SetJavaScriptLint()
+function! SyntasticJavaScriptChecker()
+  let l:eslint = 'eslint'
+  " let l:node_modules = finddir('node_modules', expand('%:p:h') . ';')
 
-let g:syntastic_javascript_checkers = ['eslint'] " npm install eslint -g
+  if executable('npm')
+    let l:npm_bin = split(system('npm bin'), '\n')[0]
+
+    let l:lints = ['eslint', 'jshint', 'jslint']
+
+    if strlen(l:npm_bin)
+      for lint in l:lints
+        let l:lint_path = l:npm_bin . '/' . lint
+        if executable(l:lint_path)
+          let l:eslint = l:lint_path
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  let b:syntastic_javascript_eslint_exec = l:eslint
+endfunction
+
+let g:syntastic_javascript_checkers = ['eslint']
+autocmd FileType javascript call SyntasticJavaScriptChecker()
+
 let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
 let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
 let g:syntastic_less_checkers = ["csslint"]
+let g:syntastic_ignore_files = ['\/node_modules\/.*']
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
