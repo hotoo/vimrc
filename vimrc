@@ -78,7 +78,9 @@ Plugin 'hotoo/snippets'
 let g:snippets_dir = '~/.vim/bundle/snippets'
 "Plugin 'AutoComplPop'
 Plugin 'ZenCoding.vim'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'hotoo/template.vim'
+let g:template_author = '冒顿'
+Plugin 'Valloric/YouCompleteMe' " Very good.
 "Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
 "let g:neocomplete#enable_smart_case = 1
@@ -95,6 +97,9 @@ Plugin 'kchmck/vim-coffee-script'
 "Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Plugin 'mxw/vim-jsx'
 Plugin 'elzr/vim-json'
+autocmd FileType json setlocal formatprg=jsonmatter " npm i jsonmatter -g
+autocmd FileType javascript setlocal formatprg=js-beautify\ --stdin\ --indent-size\ 2 " npm i js-beautify -g, Support ES2015 but not good.
+" autocmd FileType javascript setlocal formatprg=eslint\ --fix\ --stdin " npm i eslint -g, Not support --fix within --stdin.
 Plugin 'velocity.vim'
 Plugin 'hotoo/jsgf.vim'
 
@@ -102,6 +107,8 @@ Plugin 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
 
 Plugin 'vimcn/node-vimdoc'
+
+Plugin 'aklt/plantuml-syntax' " puml
 " }}}
 
 
@@ -727,7 +734,8 @@ if g:OS#win
   "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
   autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
-  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k/Users/hotoo/.vim/dict/javascript.dict'
+  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/javascript.dict'
+  autocmd FileType plantuml let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/plantuml.dict'
 endif
 
 
@@ -785,12 +793,16 @@ endfunction
 
 let g:syntastic_javascript_checkers = ['eslint']
 autocmd FileType javascript call SyntasticJavaScriptChecker()
+" autocmd FileType less call SyntasticJavaScriptChecker()
 
 let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
-let g:syntastic_css_checkers = ["csslint"] " npm install csslint -g
-let g:syntastic_less_checkers = ["csslint"]
+let g:syntastic_css_checkers = ["stylelint", "csslint"] " npm install stylelint csslint -g
+let g:syntastic_less_checkers = ["stylelint", "csslint"]
+let g:syntastic_yaml_checkers = ["yaml-lint"] " https://github.com/Pryz/yaml-lint
+" let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_ignore_files = ['\/node_modules\/.*']
 let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_signs=1
@@ -870,6 +882,7 @@ syntax match WhitespaceEOL /\s\+$/
 
 " velocity default encoding setting.
 au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
+au BufRead,BufNewFile *.puml setlocal ft=plantuml
 
 autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 
