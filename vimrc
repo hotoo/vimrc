@@ -56,6 +56,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+Plugin 'ap/vim-css-color'
 
 " DOCUMENT ================================================================{{{
 Plugin 'vimcn/vimcdoc'
@@ -81,6 +82,7 @@ Plugin 'ZenCoding.vim'
 Plugin 'hotoo/template.vim'
 let g:template_author = '冒顿'
 Plugin 'Valloric/YouCompleteMe' " Very good.
+set complete=k
 "Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
 "let g:neocomplete#enable_smart_case = 1
@@ -713,6 +715,7 @@ let g:vimwiki_use_calendar = 0
 let g:vimwiki_timestamp_format='%Y年%m月%d日 %H:%M:%S'
 let g:vimwiki_user_htmls = "search.html,404.html"
 
+let g:snips_trigger_key = '<C-\>'
 
 " autocomplpop.vim, acp.vim
 "let g:loaded_acp = 0
@@ -727,15 +730,15 @@ let g:acp_behaviorHtmlOmniLength = -1
 let g:AutoComplPop_MappingDriven = 1        " Don't popup when move cursor.
 let g:AutoComplPop_IgnoreCaseOption = 1
 " @see http://d.hatena.ne.jp/cooldaemon/20071114/1195029893
-autocmd FileType * let g:acp_completeOption = '.,w,b,u,t,i'
+autocmd FileType * set complete=.,w,b,u,t,i
 let g:acp_behaviorSnipmateLength = 1
 if g:OS#win
   "autocmd FileType perl let g:acp_completeOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
   "autocmd FileType ruby let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
-  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
+  autocmd FileType javascript set complete=.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict
 else
-  autocmd FileType javascript let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/javascript.dict'
-  autocmd FileType plantuml let g:acp_completeOption = '.,w,b,u,t,i,k~/.vim/dict/plantuml.dict'
+  autocmd FileType javascript set complete=.,w,b,u,t,i,k~/.vim/dict/javascript.dict
+  autocmd FileType plantuml set complete=.,w,b,u,t,i,k~/.vim/dict/plantuml.dict
 endif
 
 
