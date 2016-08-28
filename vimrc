@@ -57,6 +57,8 @@ let g:indent_guides_auto_colors = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 Plugin 'ap/vim-css-color'
+Plugin 'vim-scripts/matchit.zip'
+Plugin 'vimcn/matchit.vim.cnx'
 
 " DOCUMENT ================================================================{{{
 Plugin 'vimcn/vimcdoc'
@@ -65,7 +67,7 @@ Plugin 'vimcn/vimcdoc'
 " PROJECT MANAGER ========================================================={{{
 Plugin 'TaskList.vim'
 Plugin 'taglist.vim'
-Plugin 'tagbar'
+" Plugin 'tagbar'
 "Plugin 'majutsushi/tagbar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'hotoo/NERD_tree-Project'
@@ -824,6 +826,7 @@ if g:OS#win
   let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
   let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
 elseif g:OS#mac
+  " brew install ctags
   let g:ctags_path='/usr/local/bin/ctags'
   let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
 	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
@@ -845,7 +848,7 @@ let g:ctags_args=1
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Exit_OnlyWindow = 1
-let g:Tlist_WinWidth=25
+let g:Tlist_WinWidth=40
 nnoremap <F12> :TlistToggle<CR>
 
 let tlist_vimwiki_settings = 'wiki;h:Headers'
@@ -857,6 +860,7 @@ let tlist_xhtml_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
 let tlist_velocity_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
 let tlist_css_settings = 'css;c:Classes;o:Objects(ID);t:Tags(Elements)'
 let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
+let tlist_json_settings = 'json;o:Objects'
 
 
 " --------------------------- Macros & Functions ------------------------ {{{
