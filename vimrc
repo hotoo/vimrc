@@ -84,6 +84,12 @@ Plugin 'ZenCoding.vim'
 Plugin 'hotoo/template.vim'
 let g:template_author = '冒顿'
 Plugin 'Valloric/YouCompleteMe' " Very good.
+let g:ycm_semantic_triggers = {
+   \   'css': [ 're!^\s{2,}', 're!:\s+' ],
+   \   'less': [ 're!^\s{2,}', 're!:\s+' ],
+   \   'sass': [ 're!^\s{2,}', 're!:\s+' ],
+   \   'scss': [ 're!^\s{2,}', 're!:\s+' ],
+   \ }
 set complete=k
 "Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
