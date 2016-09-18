@@ -69,7 +69,7 @@ Plugin 'TaskList.vim'
 Plugin 'taglist.vim'
 " Plugin 'tagbar'
 "Plugin 'majutsushi/tagbar'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'hotoo/NERD_tree-Project'
 Plugin 'mru.vim'
 " }}}
