@@ -38,6 +38,7 @@ call vundle#rc()
 Plugin 'gmarik/vundle'
 
 
+Plugin 'ryanoasis/vim-devicons'
 "Plugin 'Lokaltog/vim-powerline'
 Plugin 'bling/vim-airline'
 "Plugin 'mhinz/vim-signify'
@@ -45,12 +46,14 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'hotoo/NERD_tree-Project'
+
 Plugin 'scrooloose/syntastic'
 Plugin 'hotoo/calendar-vim'
 Plugin 'hotoo/pangu.vim'
-Plugin 'ryanoasis/vim-devicons'
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 1
@@ -70,7 +73,6 @@ Plugin 'taglist.vim'
 " Plugin 'tagbar'
 "Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'hotoo/NERD_tree-Project'
 Plugin 'mru.vim'
 " }}}
 
@@ -898,5 +900,14 @@ au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
 au BufRead,BufNewFile *.puml setlocal ft=plantuml
 
 autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
+
+" 光标自动定位到最后编辑的位置。
+autocmd BufReadPost * if line("'\"") > 0 |
+                    \   if line("'\"") <= line("$") |
+                    \     exe("norm '\"") |
+                    \   else |
+                    \     exe "norm $" |
+                    \   endif |
+                    \ endif
 
 " vim:fdm=marker

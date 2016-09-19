@@ -41,6 +41,13 @@
 `- .vim_mru_files    MRU.vim 保存的列表文件，如果没有请手工创建。
 ```
 
+## Features
+
+- `:MRU` Most Recent Used files.
+- `:CtrlP`, `<Ctrl-p>` Fuzzy file, buffer, mru, tag, etc finder. https://github.com/ctrlpvim/ctrlp.vim
+- `<F2>` NERDTree by project.
+- `%` https://github.com/vim-scripts/matchit.zip
+- 打开文件时光标自动定位到上次所在的位置。
 
 ## Install
 
