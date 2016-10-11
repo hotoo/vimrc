@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# [Download](http://plantuml.com/download)
+java -jar $HOME/lib/java/plantuml.jar -tsvg $@
+# java -jar $HOME/lib/java/plantuml.jar -tpng $@

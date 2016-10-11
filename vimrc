@@ -63,6 +63,8 @@ Plugin 'ap/vim-css-color'
 Plugin 'vim-scripts/matchit.zip'
 Plugin 'vimcn/matchit.vim.cnx'
 
+Plugin 'hotoo/highlight-cursor-word.vim'
+
 " DOCUMENT ================================================================{{{
 Plugin 'vimcn/vimcdoc'
 " }}}
@@ -121,6 +123,7 @@ let g:marked_app = "Marked"
 Plugin 'vimcn/node-vimdoc'
 
 Plugin 'aklt/plantuml-syntax' " puml
+let g:plantuml_executable_script='~/.vim/bin/plantuml'
 " }}}
 
 
@@ -600,7 +603,7 @@ endfunction
 
 " Open Windows Explorer and Fouse current file.
 " or open Mac Finder.
-"                                      %:p:h     " Just Fold Name.
+"                                      %:p:h     " Just Folder Name.
 command -nargs=0 FileExplorer :silent call FileExplorer("")
 if g:OS#mac
   command -nargs=0 Finder :silent call FileExplorer("")
