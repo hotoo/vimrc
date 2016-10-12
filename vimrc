@@ -189,7 +189,7 @@ set fileformats=unix,mac,dos
 
 " theme, skin, color
 if g:OS#gui
-  colo hotoo_manuscript
+  colorscheme hotoo_manuscript
 else
   colorscheme default
 endif
