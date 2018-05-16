@@ -152,6 +152,7 @@ hi Visual       guifg=#f0f0f0 guibg=#406070 gui=none
 
 hi Directory    guifg=#bf8f67 guibg=bg      gui=none
 
+" hi Underlined   guifg=NONE    guibg=bg      gui=underline
 hi Underlined   guifg=#779fcf guibg=bg      gui=underline
 hi Todo         guifg=#e0c000 guibg=#000000 gui=bold
 hi Title        guifg=#e06070 guibg=NONE    gui=bold

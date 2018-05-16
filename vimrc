@@ -79,6 +79,7 @@ Plugin 'mru.vim'
 " }}}
 
 " == COMPLETION ==========================================================={{{
+Plugin 'ternjs/tern_for_vim'
 Plugin 'msanders/snipmate.vim'
 Plugin 'vimcn/snipMate.vim.cnx'
 Plugin 'hotoo/snippets'
@@ -108,6 +109,7 @@ Plugin 'tpope/vim-markdown'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'groenewege/vim-less'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'leafgarland/typescript-vim'
 "Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Plugin 'mxw/vim-jsx'
 Plugin 'elzr/vim-json'
@@ -214,6 +216,9 @@ elseif g:OS#mac
   "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
   "set guifont=Sauce\ Code\ Powerline:h14
   set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h14
+  autocmd FileType diff set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h10
+  " if &ft == "diff"
+  " endif
 
   let g:airline_powerline_fonts = 1
 endif
@@ -905,12 +910,42 @@ au BufRead,BufNewFile *.puml setlocal ft=plantuml
 autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 
 " 光标自动定位到最后编辑的位置。
-autocmd BufReadPost * if line("'\"") > 0 |
+autocmd BufReadPost * if &ft != 'gitcommit' && line("'\"") > 0 |
                     \   if line("'\"") <= line("$") |
                     \     exe("norm '\"") |
                     \   else |
                     \     exe "norm $" |
                     \   endif |
                     \ endif
+
+function! Agreement()
+  silent! %s/[\s  ]\+$//
+  silent! %s/\([\s  ]*\n\)\+\%$//
+  silent! %s/^\(第.\{1,3\}章\([ ]*.\+\)\?\)$/<h2>\1<\/h2>/g
+  " silent! %s/^\(第.\{1,3\}条\([ ]*.\+\)\?\)$/<h3>\1<\/h3>/g
+  silent! %s/^\([^< ].*\)$/<p>\1<\/p>/g
+endfunction
+command! -nargs=? Agreement :call Agreement()
+
+
+" Egg/Chair 的 proxy 跳转
+function! InitEggProxyGF()
+  let proxyClass = finddir('app/proxy-class', expand('%:p:h') . ';')
+  execute 'setlocal path+=' . proxyClass . '/*/*'
+
+  " TODO: 对于 Enum 需要特殊处理：
+  " - com.alipay.${appName}.common.service.facade.enums.${EnumName}
+  " + app/proxy-enums/alipay-${appName}-common/${EnumName}.js
+  " let proxyEnums = finddir('app/proxy-enums', expand('%:p:h') . ';')
+  " execute 'setlocal path+=' . proxyEnums . '/*'
+
+  " TODO: 对于 proxy 需要特殊处理：
+  " - proxy.${facadeName}.${methodName}
+  " + app/proxy/${facadeName}.js
+  " let proxy = finddir('app/proxy', expand('%:p:h') . ';')
+  " execute 'setlocal path+=' . proxy
+	" :set includeexpr=substitute(v:fname,'\\.','/','g')
+endfunction
+auto FileType javascript call InitEggProxyGF()
 
 " vim:fdm=marker

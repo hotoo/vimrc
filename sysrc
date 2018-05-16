@@ -19,11 +19,21 @@ let g:vimwiki_list = [
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
         \ },
         \ {
+            \ 'path'        : '~/Dropbox/english-learn/',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+        \ },
+        \ {
             \ 'path'        : '~/workbench/saijs/wiki/content/wiki/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
-        \ }
+        \ },
+        \ {
+            \ 'path'        : '~/workbench/hotoo/recycle.hotoo.me/wiki/',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+        \ },
         \ ]
 
 
@@ -34,6 +44,7 @@ let g:calendar_list = [
     \   {'name': 'Tasks', 'path': '~/Dropbox/calendars/tasks', 'ext': 'md'},
     \   {'name': 'Diary', 'path': '~/Dropbox/calendars/diary', 'ext': 'md'},
     \   {'name': 'Note', 'path': '~/Dropbox/calendars/notes', 'ext': 'md'},
+    \   {'name': '田盛溪月', 'path': '~/Dropbox/calendars/baby', 'ext': 'baby.md'},
     \ ]
 let g:calendar_current_idx = 0
 
