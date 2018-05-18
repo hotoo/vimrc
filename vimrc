@@ -215,8 +215,8 @@ elseif g:OS#mac
   "set guifont=Courier_New:h16
   "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
   "set guifont=Sauce\ Code\ Powerline:h14
-  set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h14
-  autocmd FileType diff set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h10
+  set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
+  autocmd FileType diff set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h10
   " if &ft == "diff"
   " endif
 

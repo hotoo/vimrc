@@ -57,6 +57,10 @@ for Unix-like(Mac, Linux):
 $ git clone git@github.com:hotoo/vimrc.git ~/.vim
 $ cd ~/.vim
 $ make install
+$ cd bundle/YouCompleteMe
+$ .install.py
+$ cd bundle/tern_for_vim
+$ npm install
 $
 $ vim sysrc
 ```

@@ -1,7 +1,6 @@
-
 let g:vimwiki_list = [
         \ {
-            \ 'path'        : '~/Dropbox/VimPrivateWiki',
+            \ 'path'        : '~/workbench/hotoo/private-datas/wiki/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
@@ -19,7 +18,7 @@ let g:vimwiki_list = [
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
         \ },
         \ {
-            \ 'path'        : '~/Dropbox/english-learn/',
+            \ 'path'        : '~/workbench/hotoo/private-datas/english-learn/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
         \ },
@@ -39,12 +38,12 @@ let g:vimwiki_list = [
 
 " Calendar.vim
 "let g:calendar_diary=$VIM.'\vimfiles\calendar_data\'
-let g:calendar_diary='~/Dropbox/calendars/tasks'
+let g:calendar_diary='~/workbench/hotoo/private-datas/calendars/tasks'
 let g:calendar_list = [
-    \   {'name': 'Tasks', 'path': '~/Dropbox/calendars/tasks', 'ext': 'md'},
-    \   {'name': 'Diary', 'path': '~/Dropbox/calendars/diary', 'ext': 'md'},
-    \   {'name': 'Note', 'path': '~/Dropbox/calendars/notes', 'ext': 'md'},
-    \   {'name': '田盛溪月', 'path': '~/Dropbox/calendars/baby', 'ext': 'baby.md'},
+    \   {'name': 'Tasks', 'path': '~/workbench/hotoo/private-datas/calendars/tasks', 'ext': 'md'},
+    \   {'name': 'Diary', 'path': '~/workbench/hotoo/private-datas/calendars/diary', 'ext': 'md'},
+    \   {'name': 'Note', 'path': '~/workbench/hotoo/private-datas/calendars/notes', 'ext': 'md'},
+    \   {'name': '田盛溪月', 'path': '~/workbench/hotoo/private-datas/calendars/baby', 'ext': 'baby.md'},
     \ ]
 let g:calendar_current_idx = 0
 
