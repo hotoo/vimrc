@@ -3,7 +3,7 @@ let g:vimwiki_list = [
             \ 'path'        : '~/workbench/hotoo/private-datas/wiki/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
-            \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'js': 'javascript', 'json': 'json', 'python': 'python', 'c++': 'cpp'},
         \ },
         \ {
             \ 'path'        : '~/workbench/hotoo/wiki.hotoo.me/wiki/',
@@ -43,7 +43,6 @@ let g:calendar_list = [
     \   {'name': 'Tasks', 'path': '~/workbench/hotoo/private-datas/calendars/tasks', 'ext': 'md'},
     \   {'name': 'Diary', 'path': '~/workbench/hotoo/private-datas/calendars/diary', 'ext': 'md'},
     \   {'name': 'Note', 'path': '~/workbench/hotoo/private-datas/calendars/notes', 'ext': 'md'},
-    \   {'name': '田盛溪月', 'path': '~/workbench/hotoo/private-datas/calendars/baby', 'ext': 'baby.md'},
     \ ]
 let g:calendar_current_idx = 0
 
