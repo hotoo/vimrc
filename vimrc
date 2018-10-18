@@ -88,7 +88,7 @@ let g:snippets_dir = '~/.vim/bundle/snippets'
 Plugin 'ZenCoding.vim'
 Plugin 'hotoo/template.vim'
 let g:template_author = '冒顿'
-Plugin 'Valloric/YouCompleteMe' " Very good.
+" Plugin 'Valloric/YouCompleteMe' " Very good.
 let g:ycm_semantic_triggers = {
    \   'css': [ 're!^\s{2,}', 're!:\s+' ],
    \   'less': [ 're!^\s{2,}', 're!:\s+' ],
@@ -113,7 +113,9 @@ Plugin 'leafgarland/typescript-vim'
 "Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Plugin 'mxw/vim-jsx'
 Plugin 'elzr/vim-json'
-autocmd FileType json setlocal formatprg=jsonmatter " npm i jsonmatter -g
+
+" autocmd FileType json setlocal formatprg=js2json|jsonmatter " npm i @hotoo/js2json jsonmatter -g
+autocmd FileType json setlocal formatprg=jsonmatter " npm i @hotoo/js2json jsonmatter -g
 autocmd FileType javascript setlocal formatprg=js-beautify\ --stdin\ --indent-size\ 2 " npm i js-beautify -g, Support ES2015 but not good.
 " autocmd FileType javascript setlocal formatprg=eslint\ --fix\ --stdin " npm i eslint -g, Not support --fix within --stdin.
 Plugin 'velocity.vim'
@@ -126,6 +128,13 @@ Plugin 'vimcn/node-vimdoc'
 
 Plugin 'aklt/plantuml-syntax' " puml
 let g:plantuml_executable_script='~/.vim/bin/plantuml'
+
+" 复制图片粘贴到 Markdown 文件中。
+Plugin 'ferrine/md-img-paste.vim'
+autocmd FileType markdown nmap <silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+let g:mdip_imgdir = 'assets'
+let g:mdip_imgname = 'image'
+Plugin 'wookayin/vim-typora'
 " }}}
 
 
@@ -767,7 +776,7 @@ let g:calendar_monday = 1                   " week start with monday.
 let g:calendar_weeknm = 1                   " don't work with g:calendar_diary
 let g:calendar_mark = 'left-fit'            " let plus(+) near the date, like +8.
 "let g:calendar_mruler = '一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月'
-"let g:calendar_wruler = '日 一 二 三 四 五 六'
+let g:calendar_wruler = '日 一 二 三 四 五 六'
 "let g:calendar_navi_label = '上月,本月,下月'
 
 " NERDTree
@@ -906,6 +915,10 @@ syntax match WhitespaceEOL /\s\+$/
 " velocity default encoding setting.
 au BufRead,BufNewFile *.vm setlocal ft=html fileencoding=gbk syntax=velocity
 au BufRead,BufNewFile *.puml setlocal ft=plantuml
+
+" 支付宝小程序
+au BufRead,BufNewFile *.acss setlocal ft=less
+au BufRead,BufNewFile *.axml setlocal ft=xml
 
 autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 
