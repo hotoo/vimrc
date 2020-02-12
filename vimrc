@@ -84,7 +84,7 @@ Plugin 'msanders/snipmate.vim'
 Plugin 'vimcn/snipMate.vim.cnx'
 Plugin 'hotoo/snippets'
 let g:snippets_dir = '~/.vim/bundle/snippets'
-"Plugin 'AutoComplPop'
+" Plugin 'AutoComplPop'
 Plugin 'ZenCoding.vim'
 Plugin 'hotoo/template.vim'
 let g:template_author = '冒顿'
@@ -95,6 +95,7 @@ let g:ycm_semantic_triggers = {
    \   'sass': [ 're!^\s{2,}', 're!:\s+' ],
    \   'scss': [ 're!^\s{2,}', 're!:\s+' ],
    \ }
+Plugin 'zxqfl/tabnine-vim'
 set complete=k
 "Plugin 'Shougo/neocomplete.vim'
 "let g:neocomplete#enable_at_startup = 1
@@ -112,6 +113,8 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'leafgarland/typescript-vim'
 "Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 Plugin 'mxw/vim-jsx'
+let g:jsx_pragma_required = 1
+
 Plugin 'elzr/vim-json'
 
 " autocmd FileType json setlocal formatprg=js2json|jsonmatter " npm i @hotoo/js2json jsonmatter -g
@@ -222,7 +225,7 @@ if g:OS#win
   set guifont=Courier_New:h12:cANSI
 elseif g:OS#mac
   "set guifont=Courier_New:h16
-  "set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+  " set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
   "set guifont=Sauce\ Code\ Powerline:h14
   set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
   autocmd FileType diff set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h10
@@ -884,7 +887,7 @@ let tlist_html_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
 let tlist_xhtml_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
 let tlist_velocity_settings = 'html;h:Headers;o:Objects(ID);c:Classes'
 let tlist_css_settings = 'css;c:Classes;o:Objects(ID);t:Tags(Elements)'
-let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
+let tlist_javascript_settings = 'javascript;d:define;c:Classes;f:Functions;o:Objects'
 let tlist_json_settings = 'json;o:Objects'
 
 
