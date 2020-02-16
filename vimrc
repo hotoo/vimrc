@@ -112,8 +112,11 @@ Plugin 'groenewege/vim-less'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'leafgarland/typescript-vim'
 "Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
-Plugin 'mxw/vim-jsx'
-let g:jsx_pragma_required = 1
+
+" Plugin 'mxw/vim-jsx'
+" let g:jsx_pragma_required = 1
+
+Plugin 'MaxMEllon/vim-jsx-pretty'
 
 Plugin 'elzr/vim-json'
 
