@@ -71,9 +71,9 @@ Plugin 'vimcn/vimcdoc'
 
 " PROJECT MANAGER ========================================================={{{
 Plugin 'TaskList.vim'
-Plugin 'taglist.vim'
+" Plugin 'taglist.vim'
 " Plugin 'tagbar'
-"Plugin 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mru.vim'
 " }}}
@@ -871,6 +871,33 @@ let g:tagbar_type_markdown = {
 		\ 'i:header',
 		\ 'k:header'
 	\ ],
+  \ 'sort': 0
+\ }
+let g:tagbar_type_vimwiki = {
+	\ 'ctagstype' : 'markdown',
+	\ 'kinds' : [
+		\ 'h:header',
+		\ 'i:header',
+		\ 'k:header'
+	\ ],
+  \ 'sort': 0
+\ }
+let g:tagbar_type_javascript = {
+  \ 'ctagstype': 'javascript',
+  \ 'kinds': [
+    \ 'a:arrays',
+    \ 'p:properties',
+    \ 't:tags',
+    \ 'o:objects',
+    \ 'g:generator functions',
+    \ 'f:functions',
+    \ 'c:constructors/classes',
+    \ 'm:methods',
+    \ 'v:variables',
+    \ 'i:imports',
+    \ 'e:exports',
+    \ 's:styled components'
+  \ ],
   \ 'sort': 0
 \ }
 
