@@ -75,6 +75,12 @@ Plugin 'TaskList.vim'
 " Plugin 'tagbar'
 Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '(\.git|\.hg|\.svn|node_modules)',
+  \ 'file': '\v\.(exe|so|dll|dat|pdf|sketch|doc|docx|pages|numbers|key)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 Plugin 'mru.vim'
 " }}}
 
@@ -231,11 +237,13 @@ elseif g:OS#mac
   " set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
   "set guifont=Sauce\ Code\ Powerline:h14
   set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
+  set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
   autocmd FileType diff set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h10
   " if &ft == "diff"
   " endif
 
   let g:airline_powerline_fonts = 1
+  set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 endif
 
 let g:webdevicons_enable = 1
@@ -825,10 +833,12 @@ function! SyntasticJavaScriptChecker()
   endif
 
   let b:syntastic_javascript_eslint_exec = l:eslint
+  let b:syntastic_typescript_eslint_exec = l:eslint
 endfunction
 
 let g:syntastic_javascript_checkers = ['eslint']
-autocmd FileType javascript call SyntasticJavaScriptChecker()
+let g:syntastic_typescript_checkers = ['eslint']
+autocmd FileType javascript,typescript call SyntasticJavaScriptChecker()
 " autocmd FileType less call SyntasticJavaScriptChecker()
 
 let g:syntastic_json_checkers = ["jsonlint"] " npm install jsonlint -g
@@ -842,8 +852,10 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_signs=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
+let g:syntastic_error_symbol='x'
+let g:syntastic_warning_symbol='!'
+" let g:syntastic_error_symbol='✗'
+" let g:syntastic_warning_symbol='⚠'
 
 highlight SyntasticErrorSign guifg=red guibg=#555555
 highlight SyntasticWarningSign guifg=yellow guibg=#555555
@@ -864,6 +876,7 @@ elseif g:OS#mac
 else
 endif
 
+let g:tagbar_foldlevel = 2
 let g:tagbar_type_markdown = {
 	\ 'ctagstype' : 'markdown',
 	\ 'kinds' : [
@@ -899,6 +912,20 @@ let g:tagbar_type_javascript = {
     \ 's:styled components'
   \ ],
   \ 'sort': 0
+\ }
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'i:imports',
+    \ 'e:enums',
+  \ ]
 \ }
 
 let g:ctags_statusline=1
