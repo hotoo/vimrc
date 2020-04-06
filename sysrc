@@ -6,7 +6,7 @@ let g:vimwiki_list = [
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'js': 'javascript', 'json': 'json', 'python': 'python', 'c++': 'cpp'},
         \ },
         \ {
-            \ 'path'        : '~/workbench/github.com/hotoo/wiki.hotoo.me/wiki/',
+            \ 'path'        : '~/workbench/github.com/hotoo/wiki/wiki/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
             \ 'nested_syntaxes' : {'javascript': 'javascript', 'python': 'python', 'c++': 'cpp'},
@@ -41,7 +41,7 @@ let g:vimwiki_list = [
 let g:calendar_diary='~/workbench/github.com/hotoo/private-datas/calendars/diary'
 let g:calendar_list = [
     \   {'name': 'Note', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/note', 'ext': 'md'},
-    \   {'name': 'Diary', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/diary', 'ext': 'md'},
+    \   {'name': 'Diary', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/diary', 'ext': 'diary.md'},
     \ ]
 let g:calendar_current_idx = 1
 
