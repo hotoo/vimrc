@@ -209,6 +209,9 @@ filetype on
 set fileformat=unix
 set fileformats=unix,mac,dos
 
+set noimd
+set imi=2
+set ims=2
 
 " theme, skin, color
 if g:OS#gui
