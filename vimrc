@@ -110,7 +110,8 @@ set complete=k
 " }}}
 
 " SYNTAX ================================================================={{{
-Plugin 'hotoo/vimwiki'
+" Plugin 'hotoo/vimwiki'
+Plugin 'vimwiki/vimwiki'
 Plugin 'vimcn/vimwiki.vim.cnx'
 Plugin 'tpope/vim-markdown'
 Plugin 'digitaltoad/vim-jade'
@@ -132,6 +133,7 @@ autocmd FileType javascript setlocal formatprg=js-beautify\ --stdin\ --indent-si
 " autocmd FileType javascript setlocal formatprg=eslint\ --fix\ --stdin " npm i eslint -g, Not support --fix within --stdin.
 Plugin 'velocity.vim'
 Plugin 'hotoo/jsgf.vim'
+let g:jsgf_option_open = 'vnew'
 
 Plugin 'itspriddle/vim-marked'
 let g:marked_app = "Marked"
