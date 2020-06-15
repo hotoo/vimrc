@@ -51,7 +51,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'hotoo/NERD_tree-Project'
 
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+Plugin 'dense-analysis/ale' " 异步 Lint 引擎
 Plugin 'hotoo/calendar-vim'
 Plugin 'hotoo/pangu.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
@@ -110,8 +111,8 @@ set complete=k
 " }}}
 
 " SYNTAX ================================================================={{{
-" Plugin 'hotoo/vimwiki'
-Plugin 'vimwiki/vimwiki'
+Plugin 'hotoo/vimwiki'
+" Plugin 'vimwiki/vimwiki' " 回车时关闭中文输入法，没有高亮日记里的 Markdown
 Plugin 'vimcn/vimwiki.vim.cnx'
 Plugin 'tpope/vim-markdown'
 Plugin 'digitaltoad/vim-jade'
