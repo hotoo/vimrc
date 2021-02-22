@@ -46,9 +46,11 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdcommenter'
 let g:NERDSpaceDelims = 1
 let g:NERDRemoveExtraSpaces = 1
+let g:NERDTreeShowLineNumbers=1
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'PhilRunninger/nerdtree-visual-selection'
 Plugin 'hotoo/NERD_tree-Project'
 
 " Plugin 'scrooloose/syntastic'
@@ -63,6 +65,7 @@ let g:indent_guides_guide_size = 1
 Plugin 'ap/vim-css-color'
 Plugin 'vim-scripts/matchit.zip'
 Plugin 'vimcn/matchit.vim.cnx'
+" Plugin 'inkarkat/vim-mark'
 
 Plugin 'hotoo/highlight-cursor-word.vim'
 
@@ -118,13 +121,16 @@ Plugin 'tpope/vim-markdown'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'groenewege/vim-less'
 Plugin 'kchmck/vim-coffee-script'
+" TypeScript
 Plugin 'leafgarland/typescript-vim'
-"Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
-
-" Plugin 'mxw/vim-jsx'
+" Plugin 'peitalin/vim-jsx-typescript'
 " let g:jsx_pragma_required = 1
+" Plugin 'MaxMEllon/vim-jsx-pretty'
 
-Plugin 'MaxMEllon/vim-jsx-pretty'
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+
+
+"Plugin 'gabrielelana/vim-markdown' " 与 Vimwiki 配合不好。
 
 Plugin 'elzr/vim-json'
 
@@ -265,7 +271,7 @@ if g:OS#win && g:OS#gui
   au GUIEnter * simalt ~x
 elseif g:OS#mac && g:OS#gui
   set transparency=5
-  set columns=999
+  set columns=180
   set lines=99
 elseif g:OS#unix
   " for Gnome.
@@ -273,7 +279,7 @@ elseif g:OS#unix
   " http://fluxbox.sourceforge.net/docbook/zh_cn/html/ch03s05.html
   autocmd GUIEnter * silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
 else
-  set columns=999
+  set columns=180
   set lines=99
 endif
 
@@ -1006,7 +1012,6 @@ function! Agreement()
 endfunction
 command! -nargs=? Agreement :call Agreement()
 
-
 " Egg/Chair 的 proxy 跳转
 function! InitEggProxyGF()
   let proxyClass = finddir('app/proxy-class', expand('%:p:h') . ';')
@@ -1019,11 +1024,12 @@ function! InitEggProxyGF()
   " execute 'setlocal path+=' . proxyEnums . '/*'
 
   " TODO: 对于 proxy 需要特殊处理：
-  " - proxy.${facadeName}.${methodName}
+  " - this.ctx.proxy.${facadeName}.${methodName}
   " + app/proxy/${facadeName}.js
-  " let proxy = finddir('app/proxy', expand('%:p:h') . ';')
-  " execute 'setlocal path+=' . proxy
-	" :set includeexpr=substitute(v:fname,'\\.','/','g')
+  let proxy = finddir('app/proxy', expand('%:p:h') . ';')
+  execute 'setlocal path+=' . proxy
+  " 给 includeexpr 用的 substitute 中的正则模式，反斜杠需要多转义一次。
+  set includeexpr=substitute(v:fname,'\\(this\\.\\)\\?\\(ctx\\.\\)\\?proxy\\.\\(\\w\\+\\)\\.\\w\\+$','\\3','')
 endfunction
 auto FileType javascript call InitEggProxyGF()
 
