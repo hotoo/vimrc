@@ -1,5 +1,11 @@
 let g:vimwiki_list = [
         \ {
+            \ 'path': $HOME.'/Library/Containers/co.noteplan.NotePlan3/Data/Library/Application Support/co.noteplan.NotePlan3/Notes',
+            \ 'ext': '.md',
+            \ 'syntax': 'markdown',
+            \ 'nested_syntaxes' : {'javascript': 'javascript', 'js': 'javascript', 'json': 'json', 'python': 'python', 'c++': 'cpp'},
+        \ },
+        \ {
             \ 'path'        : '~/workbench/github.com/hotoo/private-datas/wiki/',
             \ 'ext': '.md',
             \ 'syntax': 'markdown',
@@ -38,11 +44,11 @@ let g:vimwiki_list = [
 
 " Calendar.vim
 "let g:calendar_diary=$VIM.'\vimfiles\calendar_data\'
-let g:calendar_diary='~/workbench/github.com/hotoo/private-datas/calendars/note'
-let g:calendar_list = [
-    \   {'name': 'Note', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/note', 'ext': 'md'},
-    \   {'name': 'Diary', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/diary', 'ext': 'diary.md'},
-    \ ]
-let g:calendar_current_idx = 0
+
+"let g:calendar_list = [
+"    \   {'name': 'Note', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/note', 'ext': 'md'},
+"    \   {'name': 'Diary', 'path': '~/workbench/github.com/hotoo/private-datas/calendars/diary', 'ext': 'diary.md'},
+"    \ ]
+"let g:calendar_current_idx = 0
 
 " vim:ft=vim

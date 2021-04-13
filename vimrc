@@ -55,7 +55,24 @@ Plugin 'hotoo/NERD_tree-Project'
 
 " Plugin 'scrooloose/syntastic'
 Plugin 'dense-analysis/ale' " 异步 Lint 引擎
-Plugin 'hotoo/calendar-vim'
+
+Plugin 'lovehub/noteplan-vim'
+let g:calendar_weeknm = 5 " 1
+let g:calendar_number_of_months = 2
+let g:calendar_diary=$HOME.'/Library/Containers/co.noteplan.NotePlan3/Data/Library/Application Support/co.noteplan.NotePlan3/Calendar'
+let g:calendar_diary_extension = '.md'
+let g:calendar_filetype = 'vimwiki'
+
+" Calendar
+" @see http://www.gracecode.com/archives/674/
+let g:calendar_smnd = 1
+let g:calendar_monday = 1                   " week start with monday.
+let g:calendar_mark = 'left-fit'            " let plus(+) near the date, like +8.
+"let g:calendar_mruler = '一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月'
+let g:calendar_wruler = '日 一 二 三 四 五 六'
+"let g:calendar_navi_label = '上月,本月,下月'
+
+" Plugin 'hotoo/calendar-vim'
 Plugin 'hotoo/pangu.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 let g:indent_guides_enable_on_vim_startup = 1
@@ -794,16 +811,6 @@ else
   autocmd FileType plantuml set complete=.,w,b,u,t,i,k~/.vim/dict/plantuml.dict
 endif
 
-
-" Calendar
-" @see http://www.gracecode.com/archives/674/
-let g:calendar_smnd = 1
-let g:calendar_monday = 1                   " week start with monday.
-let g:calendar_weeknm = 1                   " don't work with g:calendar_diary
-let g:calendar_mark = 'left-fit'            " let plus(+) near the date, like +8.
-"let g:calendar_mruler = '一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月'
-let g:calendar_wruler = '日 一 二 三 四 五 六'
-"let g:calendar_navi_label = '上月,本月,下月'
 
 " NERDTree
 " @see http://www.vim.org/scripts/script.php?script_id=1658
