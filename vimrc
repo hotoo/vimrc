@@ -330,6 +330,24 @@ set splitright
 set foldmethod=syntax
 set foldlevel=6
 set foldcolumn=0
+set foldtext=SimpleFoldText()
+
+" 简明折叠文本
+function SimpleFoldText()
+  let firstLine = getline(v:foldstart)
+  " let firstLine = substitute(firstLine, '/\*\|\*/\|{{{\d\=', '', 'g')
+  let firstLine = substitute(firstSub, '^\s\+', '', 'g')
+
+  let lastLine = getline(v:foldend)
+  let lastLine = substitute(lastLine, '^\s\+', '', 'g')
+  let lines = v:foldend - v:foldstart
+  let space = repeat(' ', 120 - len(firstLine) - len(lastLine) - len(lines) - 11)
+  return firstLine . '...' . lastLine . space . '[' . lines . ' lines]'
+  " return v:folddashes . firstLine . '...' . lastLine . space . '[' . lines . ' lines]'
+endfunction
+
+Plugin 'masukomi/vim-markdown-folding'
+autocmd FileType vimwiki set foldexpr=NestedMarkdownFolds()
 
 set ignorecase
 set smartcase
