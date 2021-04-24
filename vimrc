@@ -97,7 +97,7 @@ Plugin 'TaskList.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '(\.git|\.hg|\.svn|node_modules)',
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)',
   \ 'file': '\v\.(exe|so|dll|dat|pdf|sketch|doc|docx|pages|numbers|key)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
@@ -1097,6 +1097,6 @@ function! InitEggProxyGF()
   " set includeexpr=substitute(v:fname,'\\(this\\.\\)\\?\\(ctx\\.\\)\\?\\(controller\\\|service\\\|proxy\\)\\.\\(\\[\\w\\.\\]\\+\\)\\.\\w\\+$','\\3/\\4','')
   set includeexpr=ReplaceProxyPath(v:fname)
 endfunction
-auto FileType javascript call InitEggProxyGF()
+auto FileType javascript,typescript call InitEggProxyGF()
 
 " vim:fdm=marker
