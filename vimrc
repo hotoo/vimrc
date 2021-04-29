@@ -1064,7 +1064,7 @@ function! ReplaceProxyPath(fname)
   " 如果文件不存在，还需要将驼峰替换成下划线，
   " 如果有多个驼峰，甚至需要各种组合形式的尝试。Egg 真坑。
   " ctx.service, ctx.proxy
-  let filePath = substitute(filePath, '\(\(this\.\)\?ctx\.\)\?\(service\|proxy\)\.\([a-zA-Z0-9_\.]\+\)\.\w\+$', '\3/\4', '')
+  let filePath = substitute(filePath, '\(\(this\.\)\?ctx\.\)\?\(service\|proxy\)\.\([a-zA-Z0-9_\$\.]\+\)\.\w\+$', '\3/\4', '')
   let filePath = substitute(filePath, '\.', '/', 'g')
   return filePath
 endfunction
