@@ -288,7 +288,7 @@ if g:OS#win && g:OS#gui
   au GUIEnter * simalt ~x
 elseif g:OS#mac && g:OS#gui
   set transparency=5
-  set columns=180
+  set columns=9999
   set lines=99
 elseif g:OS#unix
   " for Gnome.
@@ -1058,13 +1058,13 @@ function! ReplaceProxyPath(fname)
   " TODO:
   " 如果 controller 不存在，还需要替换为 controllers 试试。
   " app.controller
-  let filePath = substitute(a:fname, '\(\(this\.\)\?app\.\)\?\(controllers\?\)\.\([a-zA-Z0-9\.]\+\)\.\w\+$', 'controllers/\4', '')
+  let filePath = substitute(a:fname, '\(\(this\.\)\?app\.\)\?\(controllers\?\)\.\([a-zA-Z0-9\._]\+\)\.\w\+$', 'controllers/\4', '')
 
   " TODO:
   " 如果文件不存在，还需要将驼峰替换成下划线，
   " 如果有多个驼峰，甚至需要各种组合形式的尝试。Egg 真坑。
   " ctx.service, ctx.proxy
-  let filePath = substitute(filePath, '\(\(this\.\)\?ctx\.\)\?\(service\|proxy\)\.\([a-zA-Z0-9_\$\.]\+\)\.\w\+$', '\3/\4', '')
+  let filePath = substitute(filePath, '\(\(this\.\)\?ctx\.\)\?\(service\|proxy\)\.\([a-zA-Z0-9_\$\.]\+\)\.[a-zA-Z0-9_\$]\+$', '\3/\4', '')
   let filePath = substitute(filePath, '\.', '/', 'g')
   return filePath
 endfunction
